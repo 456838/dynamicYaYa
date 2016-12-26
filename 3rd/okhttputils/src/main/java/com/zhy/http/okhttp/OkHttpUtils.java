@@ -12,6 +12,7 @@ import com.zhy.http.okhttp.utils.Platform;
 
 import java.io.IOException;
 import java.util.concurrent.Executor;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
@@ -26,56 +27,86 @@ import okhttp3.Response;
 public class OkHttpUtils {
     public static final long DEFAULT_MILLISECONDS = 10_000L;        //默认读写超时
     private volatile static OkHttpUtils mInstance;
-    private OkHttpClient mOkHttpClient;
-    private Platform mPlatform;     //根据平台选择执行器，java平台使用缓存执行器，Android平台使用UI线程执行器
+    private static OkHttpClient mOkHttpClient;
+    private static Platform mPlatform;     //根据平台选择执行器，java平台使用缓存执行器，Android平台使用UI线程执行器
 
-    public OkHttpUtils(OkHttpClient okHttpClient) {
-        if (okHttpClient == null) {
-            mOkHttpClient = new OkHttpClient();
-        } else {
-            mOkHttpClient = okHttpClient;
-        }
-
-        mPlatform = Platform.get();
-    }
-
-    private OkHttpUtils(){
-
-    }
-
-//    public static OkHttpUtils initWithDefaultClient() {
-//        OkHttpClient okHttpClient = new OkHttpClient.Builder()
-////                .addInterceptor(new LoggerInterceptor("TAG"))
-//                .connectTimeout(10000L, TimeUnit.MILLISECONDS)
-//                .readTimeout(10000L, TimeUnit.MILLISECONDS)
-//                //其他配置
-//                .build();
-//        return initClient(okHttpClient);
+//    public OkHttpUtils(OkHttpClient okHttpClient) {
+//        if (okHttpClient == null) {
+//            mOkHttpClient = new OkHttpClient();
+//        } else {
+//            mOkHttpClient = okHttpClient;
+//        }
+//
+//        mPlatform = Platform.get();
 //    }
 
+//
+//    public static OkHttpUtils initClient(OkHttpClient okHttpClient) {
+//        if (mInstance == null) {
+//            synchronized (OkHttpUtils.class) {
+//                if (mInstance == null) {
+//                    mInstance = new OkHttpUtils(okHttpClient);
+//                }
+//            }
+//        }
+//        return mInstance;
+//    }
 
-    public static OkHttpUtils initClient(OkHttpClient okHttpClient) {
+    /**
+     * 构造私有化
+     */
+    private OkHttpUtils() {
+
+    }
+
+    /**
+     * singleTon
+     *
+     * @return
+     */
+    public static OkHttpUtils getInstance() {
         if (mInstance == null) {
             synchronized (OkHttpUtils.class) {
                 if (mInstance == null) {
-                    mInstance = new OkHttpUtils(okHttpClient);
+                    mInstance = new OkHttpUtils();
+                    mPlatform = Platform.get();
                 }
             }
         }
         return mInstance;
     }
 
-    public static OkHttpUtils getInstance() {
-
-        return initClient(null);
+    /**
+     * 初始化
+     *
+     * @param okHttpClient
+     * @return
+     */
+    public static OkHttpUtils init(OkHttpClient okHttpClient) {
+        mOkHttpClient = okHttpClient;
+        return mInstance;
     }
 
+    /**
+     * 默认初始化
+     *
+     * @return
+     */
+    public static OkHttpUtils initWithDefaultClient() {
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+//                .addInterceptor(new LoggerInterceptor("TAG"))
+                .connectTimeout(10000L, TimeUnit.MILLISECONDS)
+                .readTimeout(10000L, TimeUnit.MILLISECONDS)
+                //其他配置
+                .build();
+        return init(okHttpClient);
+    }
 
-    public Executor getExecutor() {
+    public static Executor getExecutor() {
         return mPlatform.defaultCallbackExecutor();
     }
 
-    public OkHttpClient getOkHttpClient() {
+    public static OkHttpClient getOkHttpClient() {
         return mOkHttpClient;
     }
 

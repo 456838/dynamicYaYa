@@ -22,6 +22,7 @@ public abstract class Callback<T>
      */
     public void onAfter(int id)
     {
+
     }
 
     /**

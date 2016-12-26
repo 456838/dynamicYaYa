@@ -1,6 +1,7 @@
 package com.yy.dynamicyaya;
 
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
@@ -15,11 +16,15 @@ import android.view.ViewGroup;
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.orhanobut.logger.Logger;
 import com.yy.saltonframework.base.BaseFragment;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.FileCallBack;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.bingoogolapple.androidcommon.adapter.BGAOnItemChildClickListener;
+import okhttp3.Call;
 
 /**
  * User: 巫金生(newSalton@outlook.com)
@@ -129,10 +134,10 @@ public class MarketFragment extends BaseFragment implements BGAOnItemChildClickL
     public void getData(int offset, int size, String areaCode) {
         showLoading();
         ArrayList<PluginBean> plugins = new ArrayList<>();
-        plugins.add(new PluginBean(1, "wifi密码查看1", "http://mobile.d.appchina.com/McDonald/e/2238868/0/0/0/1482394249791/package_2.1482394249791", "https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo/bd_logo1_31bdc765.png"));
-        plugins.add(new PluginBean(2, "wifi密码查看2", "http://mobile.d.appchina.com/McDonald/e/2238868/0/0/0/1482394249791/package_2.1482394249791", "https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo/bd_logo1_31bdc765.png"));
-        plugins.add(new PluginBean(3, "wifi密码查看3", "http://mobile.d.appchina.com/McDonald/e/2238868/0/0/0/1482394249791/package_2.1482394249791", "https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo/bd_logo1_31bdc765.png"));
-        plugins.add(new PluginBean(4, "wifi密码查看4", "http://mobile.d.appchina.com/McDonald/e/2238868/0/0/0/1482394249791/package_2.1482394249791", "https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo/bd_logo1_31bdc765.png"));
+        plugins.add(new PluginBean(1, "wifi密码查看1", "http://down11.zol.com.cn/suyan/RootExplorer4.0.4.apk", "https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo/bd_logo1_31bdc765.png"));
+        plugins.add(new PluginBean(2, "wifi密码查看2", "http://down11.zol.com.cn/suyan/RootExplorer4.0.4.apk", "https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo/bd_logo1_31bdc765.png"));
+        plugins.add(new PluginBean(3, "wifi密码查看3", "http://down11.zol.com.cn/suyan/RootExplorer4.0.4.apk", "https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo/bd_logo1_31bdc765.png"));
+        plugins.add(new PluginBean(4, "wifi密码查看4", "http://down11.zol.com.cn/suyan/RootExplorer4.0.4.apk", "https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo/bd_logo1_31bdc765.png"));
         setData(plugins);
 
 //        OkHttpManager.getOkHttpManager().asyncGet(URLProviderUtil.getMVListUrl(areaCode, offset, size), new Callback() {
@@ -219,9 +224,42 @@ public class MarketFragment extends BaseFragment implements BGAOnItemChildClickL
         String text = ((BootstrapButton) childView.findViewById(R.id.btn_download)).getText().toString().trim();
         Logger.i(text);
         if (text.equals(getString(R.string.install))) {     //
+            testDownload(position);
         } else {
+            testDownload(position);
         }
+    }
 
+
+    private void testDownload(final int position) {
+        PluginBean pluginBean = recycleViewAdapter.getItem(position);
+        OkHttpUtils.getInstance().initWithDefaultClient().get().url(pluginBean.getPluginUrl()).build().execute(new FileCallBack(Environment.getExternalStorageDirectory().getAbsolutePath(), pluginBean.getName() + ".apk") {
+            /**
+             * UI Thread
+             *
+             * @param progress
+             */
+            public void inProgress(float progress, long total, int id) {
+                Logger.i("下载进度：" + (int) (progress * 100));
+                recycleViewAdapter.updateProgress(position, (int) (progress * 100) + "");
+            }
+
+            @Override
+            public void onError(Call call, Exception e, int id) {
+                Logger.i("下载错误：" + e.getMessage());
+            }
+
+            @Override
+            public void onResponse(File response, int id) {
+
+            }
+
+            @Override
+            public void onAfter(int id) {
+                super.onAfter(id);
+
+            }
+        });
     }
 
 //    private void download(final int position) {
