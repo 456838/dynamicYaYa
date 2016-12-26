@@ -8,7 +8,11 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/DroidPlugin" />
+            <option value="$PROJECT_DIR$/3rd" />
+            <option value="$PROJECT_DIR$/3rd/DroidPlugin" />
+            <option value="$PROJECT_DIR$/3rd/filedownloader" />
+            <option value="$PROJECT_DIR$/3rd/okfiledownloader" />
+            <option value="$PROJECT_DIR$/3rd/okhttputils" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/saltonframework" />
           </set>
@@ -16,7 +20,11 @@
         <option name="myModules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/DroidPlugin" />
+            <option value="$PROJECT_DIR$/3rd" />
+            <option value="$PROJECT_DIR$/3rd/DroidPlugin" />
+            <option value="$PROJECT_DIR$/3rd/filedownloader" />
+            <option value="$PROJECT_DIR$/3rd/okfiledownloader" />
+            <option value="$PROJECT_DIR$/3rd/okhttputils" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/saltonframework" />
           </set>

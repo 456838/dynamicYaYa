@@ -1,1 +1,1 @@
-include ':app', ':saltonframework', ':DroidPlugin'
+include ':app', ':saltonframework', ':3rd:DroidPlugin', ':3rd:okfiledownloader', ':3rd:filedownloader', ':3rd:okhttputils'

@@ -20,9 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.bingoogolapple.androidcommon.adapter.BGAOnItemChildClickListener;
-import cn.finalteam.filedownloaderfinal.DownloaderManager;
-import cn.finalteam.filedownloaderfinal.FileDownloaderCallback;
-import cn.finalteam.filedownloaderfinal.FileDownloaderModel;
 
 /**
  * User: 巫金生(newSalton@outlook.com)
@@ -92,7 +89,7 @@ public class MarketFragment extends BaseFragment implements BGAOnItemChildClickL
         mvRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                Logger.e("onScrollStateChanged");
+//                Logger.e("onScrollStateChanged");
                 super.onScrollStateChanged(recyclerView, newState);
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
 
@@ -104,10 +101,9 @@ public class MarketFragment extends BaseFragment implements BGAOnItemChildClickL
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                Logger.e("onScrolled");
+//                Logger.e("onScrolled");
                 super.onScrolled(recyclerView, dx, dy);
                 lastVisibleItem = ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastVisibleItemPosition();
-
             }
         });
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
@@ -122,7 +118,7 @@ public class MarketFragment extends BaseFragment implements BGAOnItemChildClickL
                 videosList.clear();
                 mOffset = 0;
                 getData(mOffset, SIZE, areaCode);
-                Logger.e("onRefresh");
+//                Logger.e("onRefresh");
 //                dismissLoading();
                 //加载数据
             }
@@ -221,28 +217,28 @@ public class MarketFragment extends BaseFragment implements BGAOnItemChildClickL
     @Override
     public void onItemChildClick(ViewGroup parent, final View childView, final int position) {
         String text = ((BootstrapButton) childView.findViewById(R.id.btn_download)).getText().toString().trim();
+        Logger.i(text);
         if (text.equals(getString(R.string.install))) {     //
-
         } else {
-            download(position);
         }
 
     }
 
-    private void download(final int position) {
-        PluginBean pluginBean = recycleViewAdapter.getItem(position);
-        FileDownloaderModel model = DownloaderManager.getInstance().addTask(pluginBean.getPluginUrl());
-        DownloaderManager.getInstance().startTask(model.getId(), new FileDownloaderCallback() {
-            public void onProgress(int downloadId, long soFarBytes, long totalBytes, long speed, int progress) {
-                Logger.e("下载进度：" + progress);
-            }
-
-            public void onFinish(int downloadId, String path) {
-                Logger.e("下载完成,安装模块");
-            }
-        });
-    }
-
+//    private void download(final int position) {
+//        PluginBean pluginBean = recycleViewAdapter.getItem(position);
+//        FileDownloaderModel model = DownloaderManager.getInstance().addTask(pluginBean.getPluginUrl());
+//        DownloaderManager.getInstance().startTask(model.getId(), new FileDownloaderCallback() {
+//            public void onProgress(int downloadId, long soFarBytes, long totalBytes, long speed, int progress) {
+//                Logger.i("下载进度：" + progress);
+//                recycleViewAdapter.updateProgress(position,progress+"");
+//            }
+//
+//            public void onFinish(int downloadId, String path) {
+//                Logger.i("下载完成,安装模块");
+//
+//            }
+//        });
+//    }
 
 //
 //    private void download() {

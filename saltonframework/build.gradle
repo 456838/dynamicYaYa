@@ -24,4 +24,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.0.1'
     compile 'com.orhanobut:logger:1.15'     //优秀Logger打印
     compile 'com.google.code.gson:gson:2.8.0'
+
 }

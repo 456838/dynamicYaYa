@@ -31,6 +31,6 @@ dependencies {
     compile 'org.xutils:xutils:3.3.36'      //国内比较优秀的框架，集合图片显示，DB，注解，Http请求
     compile 'de.hdodenhof:circleimageview:2.1.0'
 //    compile 'zlc.season:rxdownload:1.2.7'
-    compile 'cn.finalteam:filedownloaderfinal:1.0.7'
+//    compile 'cn.finalteam:filedownloaderfinal:1.0.7'
     compile project(':saltonframework')
 }
