@@ -1,9 +1,15 @@
 package com.yy.dynamicyaya;
 
+import android.content.ComponentName;
+import android.content.ServiceConnection;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Message;
+import android.os.RemoteException;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -15,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
+import com.morgoo.droidplugin.pm.PluginManager;
 import com.orhanobut.logger.Logger;
 import com.yy.saltonframework.base.BaseFragment;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -33,7 +40,7 @@ import okhttp3.Call;
  * Time: 15:33
  * Description:
  */
-public class MarketFragment extends BaseFragment implements BGAOnItemChildClickListener {
+public class MarketFragment extends BaseFragment implements BGAOnItemChildClickListener, ServiceConnection {
 
     //    @BindView(R.id.mv_RecyclerView)
     RecyclerView mvRecyclerView;
@@ -137,7 +144,7 @@ public class MarketFragment extends BaseFragment implements BGAOnItemChildClickL
     public void getData(int offset, int size, String areaCode) {
         showLoading();
         ArrayList<PluginBean> plugins = new ArrayList<>();
-        plugins.add(new PluginBean(1, "wifi密码查看1", "http://down11.zol.com.cn/suyan/RootExplorer4.0.4.apk", "https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo/bd_logo1_31bdc765.png"));
+        plugins.add(new PluginBean(1, "Root Explorer", "http://down11.zol.com.cn/suyan/RootExplorer4.0.4.apk", "https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo/bd_logo1_31bdc765.png"));
         plugins.add(new PluginBean(2, "wifi密码查看2", "http://down11.zol.com.cn/suyan/RootExplorer4.0.4.apk", "https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo/bd_logo1_31bdc765.png"));
         plugins.add(new PluginBean(3, "wifi密码查看3", "http://down11.zol.com.cn/suyan/RootExplorer4.0.4.apk", "https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo/bd_logo1_31bdc765.png"));
         plugins.add(new PluginBean(4, "wifi密码查看4", "http://down11.zol.com.cn/suyan/RootExplorer4.0.4.apk", "https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo/bd_logo1_31bdc765.png"));
@@ -244,11 +251,38 @@ public class MarketFragment extends BaseFragment implements BGAOnItemChildClickL
     }
 
     private void install(final int position) {
+        final PluginBean pluginBean = recycleViewAdapter.getItem(position);
         Toast.makeText(getContext(), "接入DroidPlugin", Toast.LENGTH_SHORT).show();
+        if (PluginManager.getInstance().isConnected()) {
+            try {
+                if (PluginManager.getInstance().getPackageInfo(pluginBean.getApkPackageInfo().packageName, 0) != null) {
+                    Toast.makeText(getActivity(), "已经安装了，不能再安装", Toast.LENGTH_SHORT).show();
+                } else {
+                    new Thread() {
+                        @Override
+                        public void run() {
+                            try {
+                                int ret = PluginManager.getInstance().installPackage(pluginBean.getApkFile(), 0);
+                                Logger.i("安装结果：" + ret);
+                            } catch (RemoteException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }.start();
+
+                }
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+
+        } else {
+            recycleViewAdapter.updateProgress(position, "初始化");
+        }
     }
 
+
     private void download(final int position) {
-        PluginBean pluginBean = recycleViewAdapter.getItem(position);
+        final PluginBean pluginBean = recycleViewAdapter.getItem(position);
         OkHttpUtils.getInstance().initWithDefaultClient().get().url(pluginBean.getPluginUrl()).build().execute(new FileCallBack(Environment.getExternalStorageDirectory().getAbsolutePath(), pluginBean.getName() + ".apk") {
             /**
              * UI Thread
@@ -271,18 +305,42 @@ public class MarketFragment extends BaseFragment implements BGAOnItemChildClickL
             }
 
             @Override
-            public void onResponse(File response, int id) {
-
+            public void onResponse(File apk, int id) {
+                Logger.i("下载完成：" + id);
+//                String apkPath = Environment.getExternalStorageDirectory().getAbsolutePath() +File.separator+ pluginBean.getName() + ".apk";
+//                //下载完成以后解析安装相关信息
+                PackageManager pm = getActivity().getPackageManager();
+//                PackageInfo info = pm.getPackageArchiveInfo(apkPath, 0);
+                if (apk.exists() && apk.getPath().toLowerCase().endsWith(".apk")) {
+                    final PackageInfo info = pm.getPackageArchiveInfo(apk.getPath(), 0);
+                    pluginBean.setApkPackageInfo(pm, info, apk.getPath());
+                }
             }
 
             @Override
             public void onAfter(int id) {
                 super.onAfter(id);
-                Logger.i("下载完成：" + id);
+
+
             }
         });
     }
 
+    @Override
+    public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+//        startLoad();
+    }
+
+    @Override
+    public void onServiceDisconnected(ComponentName componentName) {
+
+    }
+
+    @Override
+    public void onDestroy() {
+        PluginManager.getInstance().removeServiceConnection(this);
+        super.onDestroy();
+    }
 }
 
 
