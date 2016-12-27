@@ -1,11 +1,12 @@
 package com.yy.dynamicyaya;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.beardedhen.androidbootstrap.TypefaceProvider;
+import com.morgoo.droidplugin.PluginHelper;
 
 import org.xutils.x;
-
 
 
 /**
@@ -21,6 +22,7 @@ public class CustomApplication extends Application {
     public static CustomApplication getInstance() {
         return mInstance;
     }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -28,8 +30,14 @@ public class CustomApplication extends Application {
         x.Ext.init(this);   //初始化Xutils
         x.Ext.setDebug(true);
         TypefaceProvider.registerDefaultIconSets();
+        PluginHelper.getInstance().applicationOnCreate(getBaseContext());
     }
 
+    @Override
+    protected void attachBaseContext(Context base) {
+        PluginHelper.getInstance().applicationAttachBaseContext(base);
+        super.attachBaseContext(base);
+    }
 
 
 }

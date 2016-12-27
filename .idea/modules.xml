@@ -4,9 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/3rd/3rd.iml" filepath="$PROJECT_DIR$/3rd/3rd.iml" />
       <module fileurl="file://$PROJECT_DIR$/3rd/DroidPlugin/DroidPlugin.iml" filepath="$PROJECT_DIR$/3rd/DroidPlugin/DroidPlugin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DynamicYaYa.iml" filepath="$PROJECT_DIR$/DynamicYaYa.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/dynamicYaYa.iml" filepath="$PROJECT_DIR$/dynamicYaYa.iml" />
-      <module fileurl="file://$PROJECT_DIR$/3rd/filedownloader/filedownloader.iml" filepath="$PROJECT_DIR$/3rd/filedownloader/filedownloader.iml" />
       <module fileurl="file://$PROJECT_DIR$/3rd/okfiledownloader/okfiledownloader.iml" filepath="$PROJECT_DIR$/3rd/okfiledownloader/okfiledownloader.iml" />
       <module fileurl="file://$PROJECT_DIR$/3rd/okhttputils/okhttputils.iml" filepath="$PROJECT_DIR$/3rd/okhttputils/okhttputils.iml" />
       <module fileurl="file://$PROJECT_DIR$/saltonframework/saltonframework.iml" filepath="$PROJECT_DIR$/saltonframework/saltonframework.iml" />

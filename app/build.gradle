@@ -35,4 +35,5 @@ dependencies {
     //    compile 'cn.finalteam:filedownloaderfinal:1.0.7'
     compile project(':saltonframework')
     compile project(':3rd:okhttputils')
+    compile project(':3rd:DroidPlugin')
 }

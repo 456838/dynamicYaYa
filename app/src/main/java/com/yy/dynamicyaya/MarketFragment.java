@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.orhanobut.logger.Logger;
@@ -61,7 +62,9 @@ public class MarketFragment extends BaseFragment implements BGAOnItemChildClickL
         super.onCreate(savedInstanceState);
 //        Bundle bundle = getArguments();
 //        areaCode = bundle.getString("areaCode");
+
     }
+
 
     @Override
     protected void initView(Bundle savedInstanceState) {
@@ -139,7 +142,6 @@ public class MarketFragment extends BaseFragment implements BGAOnItemChildClickL
         plugins.add(new PluginBean(3, "wifi密码查看3", "http://down11.zol.com.cn/suyan/RootExplorer4.0.4.apk", "https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo/bd_logo1_31bdc765.png"));
         plugins.add(new PluginBean(4, "wifi密码查看4", "http://down11.zol.com.cn/suyan/RootExplorer4.0.4.apk", "https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo/bd_logo1_31bdc765.png"));
         setData(plugins);
-
 //        OkHttpManager.getOkHttpManager().asyncGet(URLProviderUtil.getMVListUrl(areaCode, offset, size), new Callback() {
 //            @Override
 //            public void onFailure(Call call, IOException e) {
@@ -167,7 +169,6 @@ public class MarketFragment extends BaseFragment implements BGAOnItemChildClickL
 //            }
 //        });
     }
-
 
     Handler mHandler = new Handler() {
         @Override
@@ -223,30 +224,50 @@ public class MarketFragment extends BaseFragment implements BGAOnItemChildClickL
     public void onItemChildClick(ViewGroup parent, final View childView, final int position) {
         String text = ((BootstrapButton) childView.findViewById(R.id.btn_download)).getText().toString().trim();
         Logger.i(text);
-        if (text.equals(getString(R.string.install))) {     //
-            testDownload(position);
-        } else {
-            testDownload(position);
+        if (text.equals(getString(R.string.download)) || text.equals(getString(R.string.retry))) {     //
+            download(position);
+        } else if (text.equals(getString(R.string.install))) {
+            install(position);
+        } else if (text.equals(getString(R.string.open))) {
+            open(position);
+        } else if (text.equals(getString(R.string.update))) {
+            uninstall(position);
         }
     }
 
+    private void open(int position) {
 
-    private void testDownload(final int position) {
+    }
+
+    private boolean uninstall(int position) {
+        return false;
+    }
+
+    private void install(final int position) {
+        Toast.makeText(getContext(), "接入DroidPlugin", Toast.LENGTH_SHORT).show();
+    }
+
+    private void download(final int position) {
         PluginBean pluginBean = recycleViewAdapter.getItem(position);
         OkHttpUtils.getInstance().initWithDefaultClient().get().url(pluginBean.getPluginUrl()).build().execute(new FileCallBack(Environment.getExternalStorageDirectory().getAbsolutePath(), pluginBean.getName() + ".apk") {
             /**
              * UI Thread
-             *
              * @param progress
              */
             public void inProgress(float progress, long total, int id) {
                 Logger.i("下载进度：" + (int) (progress * 100));
+                if (progress == 1) {
+                    recycleViewAdapter.updateProgress(position, getString(R.string.install));
+                    return;
+                }
                 recycleViewAdapter.updateProgress(position, (int) (progress * 100) + "");
             }
 
             @Override
             public void onError(Call call, Exception e, int id) {
                 Logger.i("下载错误：" + e.getMessage());
+                Toast.makeText(getContext(), "下载错误，请重试", Toast.LENGTH_SHORT).show();
+                recycleViewAdapter.updateProgress(position, getString(R.string.retry));
             }
 
             @Override
@@ -257,53 +278,11 @@ public class MarketFragment extends BaseFragment implements BGAOnItemChildClickL
             @Override
             public void onAfter(int id) {
                 super.onAfter(id);
-
+                Logger.i("下载完成：" + id);
             }
         });
     }
 
-//    private void download(final int position) {
-//        PluginBean pluginBean = recycleViewAdapter.getItem(position);
-//        FileDownloaderModel model = DownloaderManager.getInstance().addTask(pluginBean.getPluginUrl());
-//        DownloaderManager.getInstance().startTask(model.getId(), new FileDownloaderCallback() {
-//            public void onProgress(int downloadId, long soFarBytes, long totalBytes, long speed, int progress) {
-//                Logger.i("下载进度：" + progress);
-//                recycleViewAdapter.updateProgress(position,progress+"");
-//            }
-//
-//            public void onFinish(int downloadId, String path) {
-//                Logger.i("下载完成,安装模块");
-//
-//            }
-//        });
-//    }
-
-//
-//    private void download() {
-//        Subscription subscription = RxDownload.getInstance()
-//                .download(recycleViewAdapter.getItem(position) == null ? "" : recycleViewAdapter.getItem(position).getPluginUrl(), recycleViewAdapter.getItem(position) == null ? "" : recycleViewAdapter.getItem(position).getName() + ".apk", null)
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new Subscriber<DownloadStatus>() {
-//                    @Override
-//                    public void onCompleted() {
-//                        //下载完成
-//                        ((BootstrapButton) childView.findViewById(R.id.btn_download)).setText("打开");
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//                        //下载出错
-//                        ((BootstrapButton) childView.findViewById(R.id.btn_download)).setText("重试");
-//                    }
-//
-//                    @Override
-//                    public void onNext(final DownloadStatus status) {
-//                        //下载状态
-//                        ((BootstrapButton) childView.findViewById(R.id.btn_download)).setText("" + status.getPercent());
-//                    }
-//                });
-//    }
 }
 
 

@@ -3,6 +3,7 @@ package com.yy.dynamicyaya;
 import android.support.v7.widget.RecyclerView;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
+import com.beardedhen.androidbootstrap.api.defaults.DefaultBootstrapBrand;
 
 import cn.bingoogolapple.androidcommon.adapter.BGARecyclerViewAdapter;
 import cn.bingoogolapple.androidcommon.adapter.BGAViewHolderHelper;
@@ -45,6 +46,15 @@ public class PluginItemAdapter extends BGARecyclerViewAdapter<PluginBean> {
     public void updateProgress(int position, String tip) {
         BootstrapButton btn_down = (BootstrapButton) mRecyclerView.findViewHolderForAdapterPosition(position).itemView.findViewById(R.id.btn_download);
         btn_down.setText(tip);
+        if (tip.equals(mContext.getString(R.string.install))) {
+            btn_down.setBootstrapBrand(DefaultBootstrapBrand.PRIMARY);
+        } else if (tip.equals(mContext.getString(R.string.update))) {
+            btn_down.setBootstrapBrand(DefaultBootstrapBrand.INFO);
+        } else if (tip.equals(mContext.getString(R.string.open))) {
+            btn_down.setBootstrapBrand(DefaultBootstrapBrand.REGULAR);
+        } else {
+            btn_down.setBootstrapBrand(DefaultBootstrapBrand.SUCCESS);
+        }
     }
 
 }
