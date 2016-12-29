@@ -6,6 +6,7 @@ import android.content.ServiceConnection;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
@@ -41,7 +42,7 @@ import okhttp3.Call;
  * Time: 15:33
  * Description:
  */
-public class MarketFragment extends BaseFragment implements BGAOnItemChildClickListener, ServiceConnection {
+public class MarketFragmentDul extends BaseFragment implements BGAOnItemChildClickListener, ServiceConnection {
 
     private static final int INASTALL_SUCCESS = 1;
     //    @BindView(R.id.mv_RecyclerView)
@@ -58,8 +59,8 @@ public class MarketFragment extends BaseFragment implements BGAOnItemChildClickL
     protected static final int SIZE = 20;
     protected int mOffset = 0;
 
-    public static MarketFragment getInstance(String areaCode) {
-        MarketFragment mvViewPagerItemFragment = new MarketFragment();
+    public static MarketFragmentDul getInstance(String areaCode) {
+        MarketFragmentDul mvViewPagerItemFragment = new MarketFragmentDul();
         Bundle bundle = new Bundle();
         bundle.putString("areaCode", areaCode);
         mvViewPagerItemFragment.setArguments(bundle);
@@ -151,7 +152,7 @@ public class MarketFragment extends BaseFragment implements BGAOnItemChildClickL
         plugins.add(new PluginBean(3, "wifi密码查看3", "http://down11.zol.com.cn/suyan/RootExplorer4.0.4.apk", "https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo/bd_logo1_31bdc765.png"));
         plugins.add(new PluginBean(4, "wifi密码查看4", "http://down11.zol.com.cn/suyan/RootExplorer4.0.4.apk", "https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo/bd_logo1_31bdc765.png"));
         setData(plugins);
-//       OkHttpManager.getOkHttpManager().asyncGet(URLProviderUtil.getMVListUrl(areaCode, offset, size), new Callback() {
+//        OkHttpManager.getOkHttpManager().asyncGet(URLProviderUtil.getMVListUrl(areaCode, offset, size), new Callback() {
 //            @Override
 //            public void onFailure(Call call, IOException e) {
 //                showSnake(e.getMessage());
@@ -166,6 +167,7 @@ public class MarketFragment extends BaseFragment implements BGAOnItemChildClickL
 //                        msg.obj = mvListBean.getVideos();
 //                        msg.what = 101;
 //                        mHandler.sendMessage(msg);
+//
 //                        //setData(mvListBean.getVideos());
 //                    } catch (JsonSyntaxException e) {
 //                        e.printStackTrace();
@@ -294,7 +296,7 @@ public class MarketFragment extends BaseFragment implements BGAOnItemChildClickL
 
     private void download(final int position) {
         final PluginBean pluginBean = recycleViewAdapter.getItem(position);
-        OkHttpUtils.getInstance().initWithDefaultClient().get().url(pluginBean.getPluginUrl()).build().execute(new FileCallBack(YConfig.DEFALULT_SAVE_LOCATION, pluginBean.getName() + ".apk") {
+        OkHttpUtils.getInstance().initWithDefaultClient().get().url(pluginBean.getPluginUrl()).build().execute(new FileCallBack(Environment.getExternalStorageDirectory().getAbsolutePath(), pluginBean.getName() + ".apk") {
             /**
              * UI Thread
              * @param progress
@@ -319,27 +321,21 @@ public class MarketFragment extends BaseFragment implements BGAOnItemChildClickL
             public void onResponse(File apk, int id) {
                 Logger.i("下载完成：" + id);
 //                String apkPath = Environment.getExternalStorageDirectory().getAbsolutePath() +File.separator+ pluginBean.getName() + ".apk";
-//                //下载完成判断是否已经安装过该应用，并且版本高于之前的版本，若不是则解析安装相关信息
+//                //下载完成以后解析安装相关信息
                 PackageManager pm = getActivity().getPackageManager();
+//                PackageInfo info = pm.getPackageArchiveInfo(apkPath, 0);
                 if (apk.exists() && apk.getPath().toLowerCase().endsWith(".apk")) {
                     final PackageInfo info = pm.getPackageArchiveInfo(apk.getPath(), 0);
                     pluginBean.setApkPackageInfo(pm, info, apk.getPath());
-                    try {
-                        if (PluginManager.getInstance().getPackageInfo(info.packageName, 0) != null) {
-                            recycleViewAdapter.updateProgress(position, getString(R.string.open));
-                        }
-                    } catch (RemoteException e) {
-                        e.printStackTrace();
-                    }
-
                     Logger.i(pluginBean.toString());
                 }
-
             }
 
             @Override
             public void onAfter(int id) {
                 super.onAfter(id);
+
+
             }
         });
     }

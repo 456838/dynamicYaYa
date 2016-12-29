@@ -38,6 +38,4 @@ public class CustomApplication extends Application {
         PluginHelper.getInstance().applicationAttachBaseContext(base);
         super.attachBaseContext(base);
     }
-
-
 }

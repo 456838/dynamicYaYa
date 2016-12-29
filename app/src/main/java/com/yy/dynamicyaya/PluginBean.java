@@ -1,8 +1,15 @@
 package com.yy.dynamicyaya;
 
+import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+
+import com.orhanobut.logger.Logger;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 
 /**
  * User: 巫金生(newSalton@outlook.com)
@@ -73,18 +80,52 @@ public class PluginBean {
         return apkPackageInfo;
     }
 
-    public void setApkPackageInfo(PackageManager pm,PackageInfo apkPackageInfo,String path) {
-        this.apkPackageInfo = apkPackageInfo;
+
+    public static Resources getResources(Context context, String apkPath) throws Exception {
+        String PATH_AssetManager = "android.content.res.AssetManager";
+        Class assetMagCls = Class.forName(PATH_AssetManager);
+        Constructor assetMagCt = assetMagCls.getConstructor((Class[]) null);
+        Object assetMag = assetMagCt.newInstance((Object[]) null);
+        Class[] typeArgs = new Class[1];
+        typeArgs[0] = String.class;
+        Method assetMag_addAssetPathMtd = assetMagCls.getDeclaredMethod("addAssetPath",
+                typeArgs);
+        Object[] valueArgs = new Object[1];
+        valueArgs[0] = apkPath;
+        assetMag_addAssetPathMtd.invoke(assetMag, valueArgs);
+        Resources res = context.getResources();
+        typeArgs = new Class[3];
+        typeArgs[0] = assetMag.getClass();
+        typeArgs[1] = res.getDisplayMetrics().getClass();
+        typeArgs[2] = res.getConfiguration().getClass();
+        Constructor resCt = Resources.class.getConstructor(typeArgs);
+        valueArgs = new Object[3];
+        valueArgs[0] = assetMag;
+        valueArgs[1] = res.getDisplayMetrics();
+        valueArgs[2] = res.getConfiguration();
+        res = (Resources) resCt.newInstance(valueArgs);
+        return res;
+    }
+
+    public void setApkPackageInfo(PackageManager pm, PackageInfo info, String path) {
+        if (pm ==null){
+            Logger.i("PackageManager == null");
+        }
+        if(info ==null){
+            Logger.i("PackageInfo == null");
+        }
         try {
-            apkIcon = pm.getApplicationIcon(apkPackageInfo.applicationInfo);
+            apkIcon = pm.getApplicationIcon(info.applicationInfo);
         } catch (Exception e) {
             apkIcon = pm.getDefaultActivityIcon();
         }
-        apkTitle = pm.getApplicationLabel(apkPackageInfo.applicationInfo);
-        apkVersionName = apkPackageInfo.versionName;
-        apkVersionCode = apkPackageInfo.versionCode;
+        apkTitle = pm.getApplicationLabel(info.applicationInfo);
+        apkVersionName = info.versionName;
+        apkVersionCode = info.versionCode;
         apkFile = path;
+        apkPackageInfo = info;
     }
+
 
     public boolean isApkInstalling() {
         return apkInstalling;
@@ -152,10 +193,18 @@ public class PluginBean {
     @Override
     public String toString() {
         return "PluginBean{" +
-                "iconUrl='" + iconUrl + '\'' +
-                ", pluginUrl='" + pluginUrl + '\'' +
+                "order=" + order +
                 ", name='" + name + '\'' +
-                ", order=" + order +
+                ", pluginUrl='" + pluginUrl + '\'' +
+                ", iconUrl='" + iconUrl + '\'' +
+                ", version='" + version + '\'' +
+                ", apkIcon=" + apkIcon +
+                ", apkTitle=" + apkTitle +
+                ", apkVersionName='" + apkVersionName + '\'' +
+                ", apkVersionCode=" + apkVersionCode +
+                ", apkFile='" + apkFile + '\'' +
+                ", apkPackageInfo=" + apkPackageInfo +
+                ", apkInstalling=" + apkInstalling +
                 '}';
     }
 }
