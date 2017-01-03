@@ -29,7 +29,8 @@ public class MainActivity extends AppCompatActivity {
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         List<PluginFragmentState> pluginFragmentStateList = new ArrayList<>();
         pluginFragmentStateList.add(new PluginFragmentState("已安装", new InstalledFragment()));
-        pluginFragmentStateList.add(new PluginFragmentState("待安装", new MarketFragment()));
+//        pluginFragmentStateList.add(new PluginFragmentState("待安装", new MarketFragmentDul()));
+        pluginFragmentStateList.add(new PluginFragmentState("插件市场", new TestFragment()));
         viewPager.setAdapter(new PluginFragmentStatePagerAdapter(getSupportFragmentManager(), pluginFragmentStateList));
     }
 }

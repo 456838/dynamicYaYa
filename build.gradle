@@ -23,6 +23,51 @@ task clean(type: Delete) {
 }
 
 
+
+allprojects {
+    repositories {
+
+        maven {
+            url "http://repo.yypm.com:8181/nexus/content/groups/public"
+        }
+
+        maven {
+            url "http://repo.yypm.com:8181/nexus/content/groups/releases"
+        }
+        maven {
+            url "http://repo.yypm.com:8181/nexus/content/groups/snapshots"
+        }
+        maven {
+            url "file:///$System.env.ANDROID_HOME/extras/android/m2repository"
+        }
+        mavenCentral()
+        maven {
+            url "https://jitpack.io"
+        }
+        maven {
+            url  "http://dl.bintray.com/lukaville/maven"
+        }
+
+        mavenLocal()
+        maven {
+            url "http://repo.yypm.com:8181/nexus/content/groups/public"
+        }
+        maven {
+            url "file:///$System.env.ANDROID_HOME/extras/android/m2repository"
+        }
+        maven { url "http://repo.yypm.com:8181/nexus/content/groups/public" }
+
+        maven { url "http://repo.yypm.com:8181/nexus/content/repositories/releases" }
+        maven { url "http://repo.yypm.com:8181/nexus/content/repositories/snapshots" }
+        maven { url "https://maven.fabric.io/public" }
+        maven { url "http://repo.maven.apache.org/maven2" }
+        mavenCentral()
+        maven { url "https://jitpack.io" }
+    }
+}
+
+
+
 ext {
     compileSdkVersion =25
     buildToolsVersion = "25.0.1"

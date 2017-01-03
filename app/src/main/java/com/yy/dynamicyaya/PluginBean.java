@@ -24,6 +24,24 @@ public class PluginBean {
     private String pluginUrl;
     private String iconUrl;
     private String version;
+    private String category;
+    private int size;  //bite
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
 
     /**
      * apk文件下载以后再处理这些
@@ -108,10 +126,10 @@ public class PluginBean {
     }
 
     public void setApkPackageInfo(PackageManager pm, PackageInfo info, String path) {
-        if (pm ==null){
+        if (pm == null) {
             Logger.i("PackageManager == null");
         }
-        if(info ==null){
+        if (info == null) {
             Logger.i("PackageInfo == null");
         }
         try {

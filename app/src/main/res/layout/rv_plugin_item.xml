@@ -7,14 +7,16 @@
     android:layout_margin="5dp"
     android:orientation="horizontal">
 
-    <!--<com.beardedhen.androidbootstrap.BootstrapCircleThumbnail-->
-    <!--android:id="@+id/iv_icon"-->
-    <!--android:layout_width="10dp"-->
-    <!--android:layout_height="60dp"-->
-    <!--android:layout_weight="3"-->
-    <!--android:gravity="center"-->
-    <!--android:scaleType="center"-->
-    <!--android:src="@mipmap/pic_loading" />-->
+    <ImageView
+        android:id="@+id/iv_icon"
+        android:layout_width="10dp"
+        android:layout_height="60dp"
+        android:layout_weight="3"
+        android:gravity="center"
+        android:scaleType="center"
+        android:src="@mipmap/pic_loading"
+        android:visibility="gone"
+        />
 
     <LinearLayout
         android:layout_width="0dp"
@@ -70,9 +72,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:gravity="center"
             android:layout_marginLeft="2dp"
             android:layout_marginRight="2dp"
+            android:gravity="center"
             android:orientation="horizontal"
             android:text="下载"
             app:bootstrapBrand="success"
