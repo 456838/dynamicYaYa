@@ -1,9 +1,12 @@
 package com.yy.dynamicyaya;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.RemoteException;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -24,9 +27,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.bingoogolapple.androidcommon.adapter.BGAOnItemChildClickListener;
+import cn.bingoogolapple.androidcommon.adapter.BGAOnRVItemLongClickListener;
 import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
 import cn.bingoogolapple.refreshlayout.BGAStickinessRefreshViewHolder;
 import okhttp3.Call;
+
+import static com.morgoo.helper.compat.PackageManagerCompat.INSTALL_FAILED_NOT_SUPPORT_ABI;
 
 /**
  * User: 巫金生(newSalton@outlook.com)
@@ -34,7 +40,7 @@ import okhttp3.Call;
  * Time: 10:18
  * Description:
  */
-public class TestFragment extends BaseFragment implements BGARefreshLayout.BGARefreshLayoutDelegate, BGAOnItemChildClickListener {
+public class TestFragment extends BaseFragment implements BGARefreshLayout.BGARefreshLayoutDelegate, BGAOnItemChildClickListener, BGAOnRVItemLongClickListener {
 
     private static final String TAG = "aa";
     private RecyclerView mRecyclerView;
@@ -76,30 +82,35 @@ public class TestFragment extends BaseFragment implements BGARefreshLayout.BGARe
 
     @Override
     protected void processLogic(Bundle savedInstanceState) {
+
+
+        mDownloadItemAdapter.setDataAndUpdate(getData());
+//        mDownloadItemAdapter.setData(itemList);
+    }
+
+    private List<DownloadItem> getData() {
         List<DownloadItem> itemList = new ArrayList<>();
-        itemList.add(new DownloadItem(1, 1, "com.cpuid.cpu_z","http://shouji.360tpcdn.com/161111/cac110bfec605a9967d79314ab2a0c4e/com.cpuid.cpu_z_21.apk"
+        itemList.add(new DownloadItem(1, 1, "com.cpuid.cpu_z", "http://shouji.360tpcdn.com/161111/cac110bfec605a9967d79314ab2a0c4e/com.cpuid.cpu_z_21.apk"
                 , "https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo/bd_logo1_31bdc765.png",
                 "1.0.0", "cpuz", "系统", 1024000
         ));
-        itemList.add(new DownloadItem(1, 2, "com.cpuid.cpu_z","http://shouji.360tpcdn.com/161111/cac110bfec605a9967d79314ab2a0c4e/com.cpuid.cpu_z_21.apk"
+        itemList.add(new DownloadItem(1, 2, "com.duowan.mobile", "http://repo.yypm.com/dwbuild/mobile/android/entmobile/entmobile-android_social_feature/20170103-43073-r529702/yymobile_client-6.0.0-SNAPSHOT-43073-official.apk"
                 , "https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo/bd_logo1_31bdc765.png",
-                "1.0.0", "cpuz1", "系统", 1024000
+                "1.0.0", "手机YY", "娱乐", 1024000
         ));
-        itemList.add(new DownloadItem(1, 3,"com.cpuid.cpu_z", "http://shouji.360tpcdn.com/161111/cac110bfec605a9967d79314ab2a0c4e/com.cpuid.cpu_z_21.apk"
+        itemList.add(new DownloadItem(1, 3, "com.yy.ourtimes", "http://repo.yypm.com/dwbuild/mobile/android/ourtimes/2.7.0/20161220-3775-r1450335/ourtimes-2.7.0-3775-official.apk"
                 , "https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo/bd_logo1_31bdc765.png",
-                "1.0.0", "cpuz2", "系统", 1024000
+                "1.0.0", "小时代", "系统", 1024000
         ));
-        itemList.add(new DownloadItem(1, 4,"com.cpuid.cpu_z", "http://shouji.360tpcdn.com/161111/cac110bfec605a9967d79314ab2a0c4e/com.cpuid.cpu_z_21.apk"
+        itemList.add(new DownloadItem(1, 4, "com.cpuid.cpu_z", "http://shouji.360tpcdn.com/161111/cac110bfec605a9967d79314ab2a0c4e/com.cpuid.cpu_z_21.apk"
                 , "https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo/bd_logo1_31bdc765.png",
                 "1.0.0", "cpuz3", "系统", 1024000
         ));
-        itemList.add(new DownloadItem(1, 5,"com.cpuid.cpu_z", "http://shouji.360tpcdn.com/161111/cac110bfec605a9967d79314ab2a0c4e/com.cpuid.cpu_z_21.apk"
+        itemList.add(new DownloadItem(1, 5, "com.cpuid.cpu_z", "http://shouji.360tpcdn.com/161111/cac110bfec605a9967d79314ab2a0c4e/com.cpuid.cpu_z_21.apk"
                 , "https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo/bd_logo1_31bdc765.png",
                 "1.0.0", "cpuz4", "系统", 1024000
         ));
-
-        mDownloadItemAdapter.setDataAndUpdate(itemList);
-//        mDownloadItemAdapter.setData(itemList);
+        return itemList;
     }
 
     @Override
@@ -142,7 +153,7 @@ public class TestFragment extends BaseFragment implements BGARefreshLayout.BGARe
              * @param progress
              */
             public void inProgress(float progress, long total, int id) {
-                Logger.i("下载进度：" + (int) (progress * 100));
+//                Logger.i("下载进度：" + (int) (progress * 100));
                 if (progress == 1) {
                     mDownloadItemAdapter.updateProgress(position, getString(R.string.install));
                     return;
@@ -176,10 +187,12 @@ public class TestFragment extends BaseFragment implements BGARefreshLayout.BGARe
         if (PluginManager.getInstance().isConnected()) {
             final String apkPath = YConfig.DEFALULT_SAVE_LOCATION + downloadItem.getName() + ".apk";
             final PackageInfo info = mPackageManager.getPackageArchiveInfo(apkPath, 0);
+//            Logger.i(info.permissions.toString());
+
             try {
                 if (PluginManager.getInstance().getPackageInfo(info.packageName, 0) != null) {
 
-                    Logger.i("安装Package:" +  info.packageName);
+                    Logger.i("安装Package:" + info.packageName);
                     Toast.makeText(getActivity(), "已经安装了，不能再安装", Toast.LENGTH_SHORT).show();
                 } else {
                     int ret = PluginManager.getInstance().installPackage(apkPath, 0);
@@ -187,6 +200,12 @@ public class TestFragment extends BaseFragment implements BGARefreshLayout.BGARe
                     switch (ret) {
                         case INASTALL_SUCCESS:
                             mDownloadItemAdapter.updateProgress(position, getString(R.string.open));
+                            break;
+                        case PluginManager.INSTALL_FAILED_NO_REQUESTEDPERMISSION:
+                            Toast.makeText(getActivity(), "安装失败，文件请求的权限太多", Toast.LENGTH_SHORT).show();
+                            break;
+                        case INSTALL_FAILED_NOT_SUPPORT_ABI:
+                            Toast.makeText(getActivity(), "宿主不支持插件的abi环境，可能宿主运行时为64位，但插件只支持32位", Toast.LENGTH_SHORT).show();
                             break;
                         default:
                             Toast.makeText(getActivity(), "安装失败:" + ret, Toast.LENGTH_SHORT).show();
@@ -205,11 +224,42 @@ public class TestFragment extends BaseFragment implements BGARefreshLayout.BGARe
 
     @Override
     public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout refreshLayout) {
+        mDownloadItemAdapter.clear();
+        mDownloadItemAdapter.setDataAndUpdate(getData());
 
     }
 
     @Override
     public boolean onBGARefreshLayoutBeginLoadingMore(BGARefreshLayout refreshLayout) {
         return false;
+    }
+
+    @Override
+    public boolean onRVItemLongClick(ViewGroup parent, View itemView, int position) {
+        doUninstall(mDownloadItemAdapter.getItem(position));
+        return true;
+    }
+
+    private void doUninstall(final DownloadItem item) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("警告，你确定要删除么？");
+        builder.setMessage("警告，你确定要删除" + item.getName() + "么？");
+        builder.setNegativeButton("删除", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (!PluginManager.getInstance().isConnected()) {
+                    Toast.makeText(getActivity(), "服务未连接", Toast.LENGTH_SHORT).show();
+                } else {
+                    try {
+                        PluginManager.getInstance().deletePackage(item.getPackageName(), 0);
+                        Toast.makeText(getActivity(), "删除完成", Toast.LENGTH_SHORT).show();
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        builder.setNeutralButton("取消", null);
+        builder.show();
     }
 }
