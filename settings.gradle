@@ -1,1 +1,1 @@
-include ':app', ':saltonframework', ':3rd:DroidPlugin', ':3rd:okfiledownloader', ':3rd:okhttputils'
+include ':app', ':saltonframework', ':3rd:DroidPlugin', ':3rd:okfiledownloader', ':3rd:okhttputils', ':plugin:xiguaplayer'

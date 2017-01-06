@@ -8,7 +8,9 @@
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/3rd/okfiledownloader/okfiledownloader.iml" filepath="$PROJECT_DIR$/3rd/okfiledownloader/okfiledownloader.iml" />
       <module fileurl="file://$PROJECT_DIR$/3rd/okhttputils/okhttputils.iml" filepath="$PROJECT_DIR$/3rd/okhttputils/okhttputils.iml" />
+      <module fileurl="file://$PROJECT_DIR$/plugin/plugin.iml" filepath="$PROJECT_DIR$/plugin/plugin.iml" />
       <module fileurl="file://$PROJECT_DIR$/saltonframework/saltonframework.iml" filepath="$PROJECT_DIR$/saltonframework/saltonframework.iml" />
+      <module fileurl="file://$PROJECT_DIR$/plugin/xiguaplayer/xiguaplayer.iml" filepath="$PROJECT_DIR$/plugin/xiguaplayer/xiguaplayer.iml" />
     </modules>
   </component>
 </project>

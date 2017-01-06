@@ -13,6 +13,8 @@
             <option value="$PROJECT_DIR$/3rd/okfiledownloader" />
             <option value="$PROJECT_DIR$/3rd/okhttputils" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/plugin" />
+            <option value="$PROJECT_DIR$/plugin/xiguaplayer" />
             <option value="$PROJECT_DIR$/saltonframework" />
           </set>
         </option>
@@ -24,6 +26,8 @@
             <option value="$PROJECT_DIR$/3rd/okfiledownloader" />
             <option value="$PROJECT_DIR$/3rd/okhttputils" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/plugin" />
+            <option value="$PROJECT_DIR$/plugin/xiguaplayer" />
             <option value="$PROJECT_DIR$/saltonframework" />
           </set>
         </option>
