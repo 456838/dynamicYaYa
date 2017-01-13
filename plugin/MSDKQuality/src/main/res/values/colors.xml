@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="color_blue_normal">#1BA6DB</color>
+    <color name="color_blue_press">#1FB9F2</color>
+
+    <color name="colorSendName">#9966cc</color>
+    <color name="colorSendName1">#FF3163</color>
+    <color name="colorSendName2">#973365</color>
+    <color name="colorSendName3">#006599</color>
+    <color name="colorSendName4">#D07E44</color>
+    <color name="colorSendName5">#97BC87</color>
+    <color name="colorSendName6">#FFAE1F</color>
+    <color name="colorSendName7">#FF437D</color>
+    <color name="txt_64">#646464</color>
+    <!--文字black-->
+    <color name="colorTextBlack">#000000</color>
+</resources>

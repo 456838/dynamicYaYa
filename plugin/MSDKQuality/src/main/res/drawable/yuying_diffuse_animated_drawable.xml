@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list android:oneshot="false"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:duration="100" android:drawable="@drawable/yuying_yinying_llayerist_01" />
+    <item android:duration="100" android:drawable="@drawable/yuying_yinying_llayerist_02" />
+    <item android:duration="100" android:drawable="@drawable/yuying_yinying_llayerist_03" />
+    <item android:duration="100" android:drawable="@drawable/yuying_yinying_llayerist_04" />
+    <item android:duration="100" android:drawable="@drawable/yuying_yinying_llayerist_05" />
+    <item android:duration="100" android:drawable="@drawable/yuying_yinying_llayerist_06" />
+    <item android:duration="100" android:drawable="@drawable/yuying_yinying_llayerist_07" />
+    <item android:duration="100" android:drawable="@drawable/yuying_yinying_llayerist_08" />
+    <item android:duration="100" android:drawable="@drawable/yuying_yinying_llayerist_09" />
+    <item android:duration="100" android:drawable="@drawable/yuying_yinying_llayerist_10" />
+    <item android:duration="100" android:drawable="@drawable/yuying_yinying_llayerist_11" />
+    <item android:duration="100" android:drawable="@drawable/yuying_yinying_llayerist_12" />
+    <item android:duration="100" android:drawable="@drawable/yuying_yinying_llayerist_13" />
+    <item android:duration="100" android:drawable="@drawable/yuying_yinying_llayerist_14" />
+    <item android:duration="100" android:drawable="@drawable/yuying_yinying_llayerist_15" />
+</animation-list>

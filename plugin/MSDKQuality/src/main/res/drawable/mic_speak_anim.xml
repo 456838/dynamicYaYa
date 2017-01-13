@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list android:oneshot="false"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:duration="200" android:drawable="@drawable/icon_mic_speak_01" />
+    <item android:duration="200" android:drawable="@drawable/icon_mic_speak_02" />
+    <item android:duration="200" android:drawable="@drawable/icon_mic_speak_03" />
+    <item android:duration="200" android:drawable="@drawable/icon_mic_speak_04" />
+    <item android:duration="200" android:drawable="@drawable/icon_mic_speak_05" />
+    <item android:duration="200" android:drawable="@drawable/icon_mic_speak_06" />
+    <item android:duration="200" android:drawable="@drawable/icon_mic_speak_07" />
+    <item android:duration="200" android:drawable="@drawable/icon_mic_speak_08" />
+    <item android:duration="200" android:drawable="@drawable/icon_mic_speak_09" />
+</animation-list>

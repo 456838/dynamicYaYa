@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:descendantFocusability="blocksDescendants"
+    android:padding="5dip" >
+
+    <TextView
+        android:id="@+id/item_account_name"
+        android:layout_width="fill_parent"
+        android:layout_height="40dip"
+        android:layout_gravity="center_vertical"
+        android:ellipsize="end"
+        android:paddingRight="45dip"
+        android:gravity="center_vertical"
+        android:singleLine="true"
+        android:textColor="#333333"
+        android:textSize="18sp" />
+
+    <ImageButton
+        android:id="@+id/item_account_btn_delete"
+        android:layout_width="38dip"
+        android:layout_height="38dip"
+        android:layout_gravity="right|center_vertical"
+        android:background="@drawable/selector_btn_transparent_black"
+        android:contentDescription="@string/app_name"
+        android:onClick="onShowUserListClick"
+        android:src="@drawable/ic_delete" />
+
+</FrameLayout>

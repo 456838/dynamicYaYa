@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list android:oneshot="true"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:duration="200" android:drawable="@drawable/flower0001" />
+    <item android:duration="200" android:drawable="@drawable/flower0004" />
+    <item android:duration="200" android:drawable="@drawable/flower0007" />
+    <item android:duration="200" android:drawable="@drawable/flower0009" />
+    <item android:duration="200" android:drawable="@drawable/flower0011" />
+    <item android:duration="200" android:drawable="@drawable/flower0014" />
+    <item android:duration="200" android:drawable="@drawable/flower0016" />
+    <item android:duration="200" android:drawable="@drawable/flower0017" />
+    <item android:duration="200" android:drawable="@drawable/flower0020" />
+    <item android:duration="200" android:drawable="@drawable/flower0022" />
+    <item android:duration="200" android:drawable="@drawable/flower0025" />
+    <item android:duration="200" android:drawable="@drawable/flower0028" />
+    <item android:duration="200" android:drawable="@drawable/flower0001" />
+    <item android:duration="200" android:drawable="@drawable/flower0004" />
+    <item android:duration="200" android:drawable="@drawable/flower0007" />
+    <item android:duration="200" android:drawable="@drawable/flower0009" />
+    <item android:duration="200" android:drawable="@drawable/flower0011" />
+    <item android:duration="200" android:drawable="@drawable/flower0014" />
+    <item android:duration="200" android:drawable="@drawable/flower0016" />
+    <item android:duration="200" android:drawable="@drawable/flower0017" />
+    <item android:duration="200" android:drawable="@drawable/flower0020" />
+    <item android:duration="200" android:drawable="@drawable/flower0022" />
+    <item android:duration="200" android:drawable="@drawable/flower0025" />
+    <item android:duration="200" android:drawable="@drawable/flower0028" />
+    <item android:duration="200" android:drawable="@drawable/flower0001" />
+    <item android:duration="200" android:drawable="@drawable/flower0004" />
+    <item android:duration="200" android:drawable="@drawable/flower0007" />
+    <item android:duration="200" android:drawable="@drawable/flower0009" />
+    <item android:duration="200" android:drawable="@drawable/flower0011" />
+    <item android:duration="200" android:drawable="@drawable/flower0014" />
+    <item android:duration="200" android:drawable="@drawable/flower0016" />
+    <item android:duration="200" android:drawable="@drawable/flower0017" />
+    <item android:duration="200" android:drawable="@drawable/flower0020" />
+    <item android:duration="200" android:drawable="@drawable/flower0022" />
+    <item android:duration="200" android:drawable="@drawable/flower0025" />
+    <item android:duration="200" android:drawable="@drawable/flower0028" />
+</animation-list>

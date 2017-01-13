@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list android:oneshot="true"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:duration="100" android:drawable="@drawable/heart_1_00038" />
+    <item android:duration="100" android:drawable="@drawable/heart_1_00040" />
+    <item android:duration="100" android:drawable="@drawable/heart_1_00042" />
+    <item android:duration="100" android:drawable="@drawable/heart_1_00046" />
+    <item android:duration="100" android:drawable="@drawable/heart_1_00049" />
+    <item android:duration="500" android:drawable="@drawable/heart_1_00050" />
+    <item android:duration="100" android:drawable="@drawable/heart_1_00057" />
+    <item android:duration="100" android:drawable="@drawable/heart_1_00061" />
+    <item android:duration="100" android:drawable="@drawable/heart_1_00063" />
+    <item android:duration="100" android:drawable="@drawable/heart_1_00066" />
+    <item android:duration="100" android:drawable="@drawable/heart_1_00070" />
+    <item android:duration="100" android:drawable="@drawable/heart_1_00072" />
+    <item android:duration="100" android:drawable="@drawable/heart_1_00078" />
+    <item android:duration="100" android:drawable="@drawable/heart_1_00080" />
+    <item android:duration="100" android:drawable="@drawable/heart_1_00083" />
+    <item android:duration="100" android:drawable="@drawable/heart_1_00084" />
+</animation-list>

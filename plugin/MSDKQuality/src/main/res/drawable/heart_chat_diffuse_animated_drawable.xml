@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list android:oneshot="true"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:duration="200" android:drawable="@drawable/heart_up_0001" />
+    <item android:duration="200" android:drawable="@drawable/heart_up_0002" />
+    <item android:duration="200" android:drawable="@drawable/heart_up_0003" />
+    <item android:duration="200" android:drawable="@drawable/heart_up_0004" />
+    <item android:duration="200" android:drawable="@drawable/heart_up_0005" />
+    <item android:duration="200" android:drawable="@drawable/heart_up_0006" />
+    <item android:duration="200" android:drawable="@drawable/heart_up_0007" />
+    <item android:duration="200" android:drawable="@drawable/heart_up_0008" />
+    <item android:duration="200" android:drawable="@drawable/heart_up_0009" />
+    <item android:duration="200" android:drawable="@drawable/heart_up_0010" />
+    <item android:duration="200" android:drawable="@drawable/heart_up_0011" />
+    <item android:duration="200" android:drawable="@drawable/heart_up_0012" />
+    <item android:duration="200" android:drawable="@drawable/heart_up_0013" />
+    <item android:duration="200" android:drawable="@drawable/heart_up_0014" />
+    <item android:duration="200" android:drawable="@drawable/heart_up_0015" />
+    <item android:duration="200" android:drawable="@drawable/heart_up_0016" />
+    <item android:duration="200" android:drawable="@drawable/heart_up_0001" />
+    <item android:duration="200" android:drawable="@drawable/heart_up_0002" />
+    <item android:duration="200" android:drawable="@drawable/heart_up_0003" />
+    <item android:duration="200" android:drawable="@drawable/heart_up_0004" />
+    <item android:duration="200" android:drawable="@drawable/heart_up_0005" />
+    <item android:duration="200" android:drawable="@drawable/heart_up_0006" />
+    <item android:duration="200" android:drawable="@drawable/heart_up_0007" />
+    <item android:duration="200" android:drawable="@drawable/heart_up_0008" />
+    <item android:duration="200" android:drawable="@drawable/heart_up_0009" />
+    <item android:duration="200" android:drawable="@drawable/heart_up_0010" />
+    <item android:duration="200" android:drawable="@drawable/heart_up_0011" />
+    <item android:duration="200" android:drawable="@drawable/heart_up_0012" />
+    <item android:duration="200" android:drawable="@drawable/heart_up_0013" />
+    <item android:duration="200" android:drawable="@drawable/heart_up_0014" />
+    <item android:duration="200" android:drawable="@drawable/heart_up_0015" />
+    <item android:duration="200" android:drawable="@drawable/heart_up_0016" />
+    <item android:duration="200" android:drawable="@drawable/heart_up_0001" />
+    <item android:duration="200" android:drawable="@drawable/heart_up_0002" />
+    <item android:duration="200" android:drawable="@drawable/heart_up_0003" />
+    <item android:duration="200" android:drawable="@drawable/heart_up_0004" />
+    <item android:duration="200" android:drawable="@drawable/heart_up_0005" />
+    <item android:duration="200" android:drawable="@drawable/heart_up_0006" />
+    <item android:duration="200" android:drawable="@drawable/heart_up_0007" />
+    <item android:duration="200" android:drawable="@drawable/heart_up_0008" />
+    <item android:duration="200" android:drawable="@drawable/heart_up_0009" />
+    <item android:duration="200" android:drawable="@drawable/heart_up_0010" />
+    <item android:duration="200" android:drawable="@drawable/heart_up_0011" />
+    <item android:duration="200" android:drawable="@drawable/heart_up_0012" />
+    <item android:duration="200" android:drawable="@drawable/heart_up_0013" />
+    <item android:duration="200" android:drawable="@drawable/heart_up_0014" />
+    <item android:duration="200" android:drawable="@drawable/heart_up_0015" />
+    <item android:duration="200" android:drawable="@drawable/heart_up_0016" />
+</animation-list>

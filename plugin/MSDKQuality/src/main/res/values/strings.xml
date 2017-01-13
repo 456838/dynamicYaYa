@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">质量检测</string>
+    <string name="live">直播</string>
+    <string name="login">登录</string>
+    <string name="appid">APPID</string>
+    <string name="uid">用户ID</string>
+    <string name="sid">频道号</string>
+    <string name="input_appid">请输入APPID</string>
+    <string name="input_uid">请输入用户ID</string>
+    <string name="input_sid">请输入频道号</string>
+    <string name="input_msg">说点什么吧</string>
+    <string name="send">发送</string>
+    <string name="low_latency_model">低流模式</string>
+    <string name="param_invalid">请输入完整信息</string>
+    <string name="err_no_server">服务器连接失败，请稍后重试</string>
+    <string name="Speaker">送话器</string>
+    <string name="no_data">暂无数据</string>
+    <string name="description_none">图片无备注</string>
+    <string name="str_input_piccode">请输入图片验证码</string>
+    <string name="str_confirm">确定</string>
+    <string name="str_disconnect">当前无可用网络</string>
+    <string name="register">注册</string>
+
+    <!-- msgadapter -->
+    <item type="id" name="tag_first"></item>
+    <item type="id" name="tag_second"></item>
+</resources>

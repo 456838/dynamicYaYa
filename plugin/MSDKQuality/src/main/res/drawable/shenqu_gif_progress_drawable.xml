@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:duration="100" android:drawable="@drawable/shenqu_gif_progress_01" />
+    <item android:duration="100" android:drawable="@drawable/shenqu_gif_progress_02" />
+    <item android:duration="100" android:drawable="@drawable/shenqu_gif_progress_03" />
+    <item android:duration="110" android:drawable="@drawable/shenqu_gif_progress_04" />
+    <item android:duration="120" android:drawable="@drawable/shenqu_gif_progress_05" />
+    <item android:duration="130" android:drawable="@drawable/shenqu_gif_progress_06" />
+    <item android:duration="140" android:drawable="@drawable/shenqu_gif_progress_07" />
+    <item android:duration="150" android:drawable="@drawable/shenqu_gif_progress_09" />
+</animation-list>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:background="@color/colorPrimary">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp">
+
+        <TextView
+            android:id="@+id/tv_title_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dip"
+            android:drawableLeft="@drawable/ic_keyboard_arrow_left_white_18dp"
+            android:drawablePadding="-8dp"
+            android:gravity="center_vertical"
+            android:text="返回"
+            android:textColor="#fff"
+            android:textColorHint="#fff"
+            android:textSize="14dp" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:hint="标题"
+            android:textColor="#fff"
+            android:textColorHint="#888"
+            android:textSize="18dp" />
+
+        <TextView
+            android:id="@+id/tv_title_additional"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dip"
+            android:hint="更多"
+            android:textColor="#fff"
+            android:textColorHint="#888"
+            android:textSize="14dp"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/iv_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dip"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/ll_video"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <LinearLayout
+                android:id="@+id/layout_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_alignParentBottom="true"
+
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_property"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:clickable="true"
+                    android:text="配置"
+                    android:textColor="#ffffff" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:text="00:00"
+                    android:textColor="#ffffff"
+                    android:visibility="gone" />
+
+                <SeekBar
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1.0"
+                    android:background="@null"
+                    android:max="100"
+                    android:maxHeight="4dp"
+                    android:minHeight="4dp"
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp"
+                    android:progressDrawable="@drawable/jc_seek_progress"
+                    android:thumb="@drawable/jc_seek_thumb" />
+
+                <ImageView
+                    android:id="@+id/iv_audio_mute"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:src="@drawable/btn_audio_mute" />
+
+                <ImageView
+                    android:id="@+id/iv_fullscreen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:scaleType="center"
+                    android:src="@drawable/full_screen_button_selector" />
+            </LinearLayout>
+
+            <ProgressBar
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:indeterminateDrawable="@drawable/jc_loading"
+                android:visibility="invisible" />
+
+            <ImageView
+                android:id="@+id/start"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:clickable="true"
+                android:src="@drawable/jc_click_pause_selector" />
+            <!--顶部：频道信息和各种状态信息-->
+            <LinearLayout
+                android:id="@+id/layout_top"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/jc_title_bg"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <!--频道信息-->
+                <RelativeLayout
+                    android:id="@+id/channel_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/anchor"
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="主播："
+                        android:textColor="#ffffffff"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/channel_id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/anchor"
+                        android:clickable="true"
+                        android:text="频道："
+                        android:textColor="#ffffffff"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/online_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/channel_id"
+                        android:clickable="true"
+                        android:text="人数："
+                        android:textColor="#ffffffff"
+                        android:textSize="16sp" />
+                </RelativeLayout>
+
+                <!--各种状态信息-->
+                <RelativeLayout
+                    android:id="@+id/live_state"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2">
+                    <!--网 络-->
+                    <TextView
+                        android:id="@+id/text_network"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="网    络："
+                        android:textColor="#ffffffff"
+                        android:textSize="16sp" />
+                    <!--分辨率-->
+                    <TextView
+                        android:id="@+id/text_resolution"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/text_network"
+                        android:text="分辨率："
+                        android:textColor="#ffffffff"
+                        android:textSize="16sp" />
+                    <!--码 率-->
+                    <TextView
+                        android:id="@+id/text_bitrate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/text_resolution"
+                        android:text="码    率："
+                        android:textColor="#ffffffff"
+                        android:textSize="16sp" />
+                    <!--帧 率-->
+                    <TextView
+                        android:id="@+id/text_framerate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/text_bitrate"
+                        android:text="帧    率："
+                        android:textColor="#ffffffff"
+                        android:textSize="16sp" />
+                    <!--编 码-->
+                    <TextView
+                        android:id="@+id/text_decode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/text_framerate"
+                        android:text="解    码："
+                        android:textColor="#ffffffff"
+                        android:textSize="16sp" />
+                </RelativeLayout>
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_property"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:visibility="gone">
+
+        <fragment
+            android:id="@+id/propertyFragment"
+            android:name="com.yy.msdkquality.fm.PropertyFragment"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
+    </LinearLayout>
+</LinearLayout>

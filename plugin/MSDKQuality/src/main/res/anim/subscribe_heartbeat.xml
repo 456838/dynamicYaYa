@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list android:oneshot="true"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:duration="100" android:drawable="@drawable/heartbeat1" />
+    <item android:duration="100" android:drawable="@drawable/heartbeat2" />
+    <item android:duration="100" android:drawable="@drawable/heartbeat3" />
+    <item android:duration="100" android:drawable="@drawable/heartbeat4" />
+    <item android:duration="100" android:drawable="@drawable/heartbeat5" />
+    <item android:duration="100" android:drawable="@drawable/heartbeat6" />
+    <item android:duration="100" android:drawable="@drawable/heartbeat7" />
+    <item android:duration="100" android:drawable="@drawable/heartbeat8" />
+</animation-list>

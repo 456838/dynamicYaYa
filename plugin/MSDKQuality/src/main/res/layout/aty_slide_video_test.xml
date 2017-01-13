@@ -1,0 +1,46 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ff000000">
+
+    <RelativeLayout
+        android:id="@+id/surface_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <com.yy.msdkquality.widget.DoubleLayout
+            android:id="@+id/double_layout_video"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentTop="true"
+            android:background="#ff000000">
+
+            <com.ycloud.live.video.YCVideoViewLayout
+                android:id="@+id/yvLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#ff000000"
+                android:baselineAligned="false"
+                android:orientation="horizontal"></com.ycloud.live.video.YCVideoViewLayout>
+
+            <com.ycloud.live.video.YCVideoViewLayout
+                android:id="@+id/yvLayout2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#ff000000"
+                android:baselineAligned="false"
+                android:orientation="horizontal"></com.ycloud.live.video.YCVideoViewLayout>
+        </com.yy.msdkquality.widget.DoubleLayout>
+    </RelativeLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:flipInterval="30"
+        android:persistentDrawingCache="animation" />
+
+</FrameLayout>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:duration="50" android:drawable="@drawable/loading_camera_circle1" />
+    <item android:duration="50" android:drawable="@drawable/loading_camera_circle2" />
+    <item android:duration="50" android:drawable="@drawable/loading_camera_circle3" />
+    <item android:duration="50" android:drawable="@drawable/loading_camera_circle4" />
+    <item android:duration="50" android:drawable="@drawable/loading_camera_circle5" />
+</animation-list>

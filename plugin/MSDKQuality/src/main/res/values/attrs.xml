@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="drawSelectorOnTop" format="boolean" />
+    <attr name="numColumns" format="integer" />
+    <attr name="itemMargin" format="dimension" />
+    <attr name="column_count" format="integer" />
+    <attr name="column_count_portrait" format="integer" />
+    <attr name="column_count_landscape" format="integer" />
+    <attr name="item_margin" format="dimension" />
+    <attr name="grid_paddingLeft" format="dimension" />
+    <attr name="grid_paddingRight" format="dimension" />
+    <attr name="grid_paddingTop" format="dimension" />
+    <attr name="grid_paddingBottom" format="dimension" />
+    <attr name="ptrRefreshableViewCamera" format="reference|boolean" />
+    <attr name="ptrRefreshableViewBackground" format="reference|color" />
+    <attr name="ptrHeaderBackground" format="reference|color" />
+    <attr name="ptrHeaderTextColor" format="reference|color" />
+    <attr name="ptrHeaderSubTextColor" format="reference|color" />
+    <attr name="ptrMode">
+        <flag name="both" value="0x00000003" />
+        <flag name="disabled" value="0x00000000" />
+        <flag name="manualOnly" value="0x00000004" />
+        <flag name="pullDownFromTop" value="0x00000001" />
+        <flag name="pullFromEnd" value="0x00000002" />
+        <flag name="pullFromStart" value="0x00000001" />
+        <flag name="pullUpFromBottom" value="0x00000002" />
+    </attr>
+    <attr name="ptrShowIndicator" format="reference|boolean" />
+    <attr name="ptrDrawable" format="reference" />
+    <attr name="ptrDrawableStart" format="reference" />
+    <attr name="ptrDrawableEnd" format="reference" />
+    <attr name="ptrOverScroll" format="reference|boolean" />
+    <attr name="ptrHeaderTextAppearance" format="reference" />
+    <attr name="ptrSubHeaderTextAppearance" format="reference" />
+    <attr name="ptrAnimationStyle">
+        <flag name="flip" value="0x00000001" />
+        <flag name="rotate" value="0x00000000" />
+    </attr>
+    <attr name="ptrScrollingWhileRefreshingEnabled" format="reference|boolean" />
+    <attr name="ptrListViewExtrasEnabled" format="reference|boolean" />
+    <attr name="ptrRotateDrawableWhilePulling" format="reference|boolean" />
+    <attr name="ptrAdapterViewBackground" format="reference|color" />
+    <attr name="ptrDrawableTop" format="reference" />
+    <attr name="ptrDrawableBottom" format="reference" />
+    <attr name="layoutManager" format="string" />
+    <attr name="spanCount" format="integer" />
+    <attr name="reverseLayout" format="boolean" />
+    <attr name="stackFromEnd" format="boolean" />
+    <attr name="orientation">
+        <enum name="horizontal" value="0" />
+        <enum name="vertical" value="1" />
+    </attr>
+    <attr name="rowCount" format="integer" />
+    <attr name="columnCount" format="integer" />
+    <attr name="useDefaultMargins" format="boolean" />
+    <attr name="alignmentMode">
+        <enum name="alignBounds" value="0" />
+        <enum name="alignMargins" value="1" />
+    </attr>
+    <attr name="rowOrderPreserved" format="boolean" />
+    <attr name="columnOrderPreserved" format="boolean" />
+    <attr name="layout_row" format="integer" />
+    <attr name="layout_rowSpan" format="integer" min="1" />
+    <attr name="layout_rowWeight" format="float" />
+    <attr name="layout_column" format="integer" />
+    <attr name="layout_columnSpan" format="integer" min="1" />
+    <attr name="layout_columnWeight" format="float" />
+    <attr name="layout_gravity">
+        <flag name="bottom" value="0x00000050" />
+        <flag name="center" value="0x00000011" />
+        <flag name="center_horizontal" value="0x00000001" />
+        <flag name="center_vertical" value="0x00000010" />
+        <flag name="clip_horizontal" value="0x00000008" />
+        <flag name="clip_vertical" value="0x00000080" />
+        <flag name="end" value="0x00800005" />
+        <flag name="fill" value="0x00000077" />
+        <flag name="fill_horizontal" value="0x00000007" />
+        <flag name="fill_vertical" value="0x00000070" />
+        <flag name="left" value="0x00000003" />
+        <flag name="right" value="0x00000005" />
+        <flag name="start" value="0x00800003" />
+        <flag name="top" value="0x00000030" />
+    </attr>
+    <attr name="allowInteractive" format="boolean" />
+    <attr name="tag" format="reference|integer" />
+    <attr name="tipsIcon" format="reference" />
+    <attr name="border_width" format="dimension" />
+    <attr name="border_color" format="color" />
+    <attr name="hasStickyHeaders" format="boolean" />
+    <attr name="isDrawingListUnderStickyHeader" format="boolean" />
+    <attr name="squareForWidth" format="boolean" />
+    <attr name="squareForHeight" format="boolean" />
+    <attr name="maxSide" format="dimension" />
+    <attr name="switchStyle" format="reference" />
+    <attr name="thumb" format="reference" />
+    <attr name="track" format="reference" />
+    <attr name="textOn" format="string" />
+    <attr name="textOff" format="string" />
+    <attr name="thumbTextPadding" format="dimension" />
+    <attr name="switchTextAppearance" format="reference" />
+    <attr name="switchMinWidth" format="dimension" />
+    <attr name="switchPadding" format="dimension" />
+    <attr name="textAppearance" format="reference" />
+    <attr name="textColor" format="color" />
+    <attr name="textSize" format="dimension" />
+    <attr name="textStyle" format="reference" />
+    <attr name="typeface" format="reference" />
+    <attr name="fontFamily" format="reference" />
+    <attr name="textColorHighlight" format="color" />
+    <attr name="textColorHint" format="color" />
+    <attr name="textColorLink" format="color" />
+    <attr name="atextAllCaps" format="boolean" />
+    <attr name="adjustType" format="reference|string" />
+    <attr name="scaleRate" format="reference|float" />
+    <attr name="divider2" format="reference|color" />
+    <attr name="showDividers2">
+        <flag name="end" value="0x00000004" />
+        <flag name="beginning" value="0x00000001" />
+        <flag name="middle" value="0x00000002" />
+        <flag name="none" value="0x00000000" />
+    </attr>
+    <attr name="dividerPadding" format="dimension" />
+    <attr name="gridColumns" format="integer" />
+    <attr name="gridMargin" format="dimension" />
+    <attr name="menuDrawerStyle" format="reference" />
+    <attr name="mdContentBackground" format="reference" />
+    <attr name="mdMenuBackground" format="reference" />
+    <attr name="mdMenuSize" format="dimension" />
+    <attr name="mdActiveIndicator" format="reference" />
+    <attr name="mdDropShadowEnabled" format="boolean" />
+    <attr name="mdDropShadowSize" format="dimension" />
+    <attr name="mdDropShadowColor" format="color" />
+    <attr name="mdDropShadow" format="reference" />
+    <attr name="mdTouchBezelSize" format="dimension" />
+    <attr name="mdAllowIndicatorAnimation" format="boolean" />
+    <attr name="mdMaxAnimationDuration" format="integer" />
+    <attr name="mdSlideDrawable" format="reference" />
+    <attr name="mdDrawerOpenUpContentDescription" format="string" />
+    <attr name="mdDrawerClosedUpContentDescription" format="string" />
+    <attr name="mdDrawOverlay" format="boolean" />
+    <attr name="mdPosition">
+        <enum name="bottom" value="3" />
+        <enum name="end" value="5" />
+        <enum name="left" value="0" />
+        <enum name="right" value="2" />
+        <enum name="start" value="4" />
+        <enum name="top" value="1" />
+    </attr>
+    <attr name="gravity">
+        <flag name="center" value="0x00000011" />
+        <flag name="left" value="0x00000003" />
+        <flag name="right" value="0x00000005" />
+    </attr>
+    <attr name="ael_duration" format="integer" />
+    <attr name="ael_expanded" format="boolean" />
+    <attr name="ael_orientation">
+        <enum name="horizontal" value="0" />
+        <enum name="vertical" value="1" />
+    </attr>
+    <attr name="ael_interpolator">
+        <enum name="accelerate" value="1" />
+        <enum name="accelerateDecelerate" value="0" />
+        <enum name="anticipate" value="2" />
+        <enum name="anticipateOvershoot" value="3" />
+        <enum name="bounce" value="4" />
+        <enum name="decelerate" value="5" />
+        <enum name="fastOutLinearIn" value="6" />
+        <enum name="fastOutSlowIn" value="7" />
+        <enum name="linear" value="8" />
+        <enum name="linearOutSlowIn" value="9" />
+        <enum name="overshoot" value="10" />
+    </attr>
+    <attr name="guidelines">
+        <enum name="off" value="0" />
+        <enum name="on" value="2" />
+        <enum name="onTouch" value="1" />
+    </attr>
+    <attr name="fixAspectRatio" format="boolean" />
+    <attr name="aspectRatioX" format="integer" />
+    <attr name="aspectRatioY" format="integer" />
+    <attr name="imageResource" format="reference" />
+    <attr name="pstsIndicatorColor" format="color" />
+    <attr name="pstsUnderlineColor" format="color" />
+    <attr name="pstsDividerColor" format="color" />
+    <attr name="pstsIndicatorBottomHeight" format="dimension" />
+    <attr name="pstsIndicatorHeight" format="dimension" />
+    <attr name="pstsUnderlineHeight" format="dimension" />
+    <attr name="pstsDividerPadding" format="dimension" />
+    <attr name="pstsTabPaddingLeftRight" format="dimension" />
+    <attr name="pstsScrollOffset" format="dimension" />
+    <attr name="pstsTabBackground" format="reference" />
+    <attr name="pstsShouldExpand" format="boolean" />
+    <attr name="pstsTextAllCaps" format="boolean" />
+    <attr name="pstsSmoothScroll" format="boolean" />
+    <attr name="pstsExpandWrap" format="boolean" />
+    <attr name="left" format="reference|integer" />
+    <attr name="right" format="reference|integer" />
+    <attr name="center" format="reference|integer" />
+    <attr name="bg" format="reference|integer|color" />
+    <attr name="SwipeFlingStyle" format="reference" />
+    <attr name="rotation_degrees" format="float" />
+    <attr name="min_adapter_stack" format="integer" />
+    <attr name="max_visible" format="integer" />
+    <attr name="lineMargin" format="dimension" />
+    <attr name="tagMargin" format="dimension" />
+    <attr name="textPaddingLeft" format="dimension" />
+    <attr name="textPaddingRight" format="dimension" />
+    <attr name="textPaddingTop" format="dimension" />
+    <attr name="textPaddingBottom" format="dimension" />
+    <attr name="border_thickness" format="dimension" />
+    <attr name="border_inside_color" format="color" />
+    <attr name="border_outside_color" format="color" />
+    <attr name="progressingText" format="reference|string" />
+    <attr name="successText" format="reference|string" />
+    <attr name="timeoutText" format="reference|string" />
+    <attr name="timeout" format="reference|integer" />
+    <attr name="strokeColor" format="reference|color" />
+    <attr name="strokeWidth" format="reference|integer" />
+    <attr name="outerColor" format="reference|color" />
+    <attr name="innnerColor" format="reference|color" />
+    <attr name="defaultColor" format="reference|color" />
+    <attr name="isDrawSide" format="boolean" />
+    <attr name="dividerWidth" format="dimension" />
+    <attr name="hlv_stackFromRight" format="boolean" />
+    <attr name="hlv_transcriptMode">
+        <enum name="disabled" value="0" />
+        <enum name="alwaysScroll" value="2" />
+        <enum name="normal" value="1" />
+    </attr>
+    <attr name="hlv_listViewStyle" format="reference" />
+    <attr name="hlv_absHListViewStyle" format="reference" />
+    <attr name="hlv_listPreferredItemWidth" format="dimension" />
+    <attr name="hlv_dividerWidth" format="dimension" />
+    <attr name="hlv_headerDividersEnabled" format="boolean" />
+    <attr name="hlv_footerDividersEnabled" format="boolean" />
+    <attr name="hlv_overScrollHeader" format="reference|color" />
+    <attr name="hlv_overScrollFooter" format="reference|color" />
+    <attr name="hlv_measureWithChild" format="integer" />
+    <attr name="layout_can_freedom_resize" format="boolean" />
+    <attr name="frameWidth" format="dimension" />
+    <attr name="frameColor" format="color" />
+    <attr name="framePadding" format="dimension" />
+    <attr name="isEditable" format="boolean" />
+    <attr name="leftTopDrawable" format="reference" />
+    <attr name="rightTopDrawable" format="reference" />
+    <attr name="leftBottomDrawable" format="reference" />
+    <attr name="rightBottomDrawable" format="reference" />
+    <attr name="functionOneLocation">
+        <enum name="left_bottom" value="3" />
+        <enum name="left_top" value="0" />
+        <enum name="right_bottom" value="2" />
+        <enum name="right_top" value="1" />
+    </attr>
+    <attr name="functionTwoLocation">
+        <enum name="left_bottom" value="3" />
+        <enum name="left_top" value="0" />
+        <enum name="right_bottom" value="2" />
+        <enum name="right_top" value="1" />
+    </attr>
+    <attr name="functionThreeLocation">
+        <enum name="left_bottom" value="3" />
+        <enum name="left_top" value="0" />
+        <enum name="right_bottom" value="2" />
+        <enum name="right_top" value="1" />
+    </attr>
+    <attr name="functionFourLocation">
+        <enum name="left_bottom" value="3" />
+        <enum name="left_top" value="0" />
+        <enum name="right_bottom" value="2" />
+        <enum name="right_top" value="1" />
+    </attr>
+    <attr name="title_left" format="reference|integer" />
+    <attr name="title_right" format="reference|integer" />
+    <attr name="title_center" format="reference|integer" />
+    <attr name="title_bg" format="reference|integer|color" />
+    <attr name="outerBorderWidth" format="dimension" />
+    <attr name="outerBorderColor" format="color" />
+    <attr name="innerBorderWidth" format="dimension" />
+    <attr name="innerBorderColor" format="color" />
+    <attr name="circleAvatarBackground" format="boolean" />
+    <attr name="rippleColor" format="color" />
+    <attr name="rippleWidth" format="dimension" />
+    <attr name="rippleSpace" format="dimension" />
+    <attr name="rippleSpeed" format="integer" />
+    <attr name="rippleStartAlphaDuration" format="integer" />
+    <attr name="rippleEndAlphaDuration" format="integer" />
+    <attr name="shaderOuterBorder" format="boolean" />
+    <attr name="rounded_border_width" format="dimension" />
+    <attr name="rounded_border_color" format="color" />
+    <attr name="rounded_corner_radius" format="dimension" />
+    <attr name="vpiCirclePageIndicatorStyle" format="reference" />
+    <attr name="vpiIconPageIndicatorStyle" format="reference" />
+    <attr name="vpiLinePageIndicatorStyle" format="reference" />
+    <attr name="vpiTitlePageIndicatorStyle" format="reference" />
+    <attr name="vpiTabPageIndicatorStyle" format="reference" />
+    <attr name="vpiUnderlinePageIndicatorStyle" format="reference" />
+    <attr name="vpiTriangleTabPageIndicatorStyle" format="reference" />
+    <attr name="centered" format="boolean" />
+    <attr name="selectedColor" format="color" />
+    <attr name="vpi_strokeWidth" format="dimension" />
+    <attr name="unselectedColor" format="color" />
+    <attr name="fillColor" format="color" />
+    <attr name="pageColor" format="color" />
+    <attr name="radius" format="dimension" />
+    <attr name="snap" format="boolean" />
+    <attr name="vpi_strokeColor" format="color" />
+</resources>

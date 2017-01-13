@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="gender">
+        <item>男</item>
+        <item>女</item>
+        <item>保密</item>
+    </string-array>
+    <string-array name="complaint">
+        <item>色情涉黄</item>
+        <item>骚扰</item>
+        <item>不良信息</item>
+        <item>广告</item>
+    </string-array>
+    <string-array name="constellation">
+        <item>魔羯座</item>
+        <item>水瓶座</item>
+        <item>双鱼座</item>
+        <item>牡羊座</item>
+        <item>金牛座</item>
+        <item>双子座</item>
+        <item>巨蟹座</item>
+        <item>狮子座</item>
+        <item>处女座</item>
+        <item>天秤座</item>
+        <item>天蝎座</item>
+        <item>射手座</item>
+    </string-array>
+    <string-array name="chat_target">
+        <item>男</item>
+        <item>女</item>
+        <item>都可以</item>
+    </string-array>
+    <string-array name="menu_array">
+        <item>Recent Online</item>
+        <item>Call Record</item>
+        <item>Message</item>
+        <item>Friends</item>
+        <item>Task</item>
+        <item>Settings</item>
+    </string-array>
+    <string-array name="gift_sliding_tab_strip_item">
+        <item>收到</item>
+        <item>送出</item>
+        <item>魅力榜</item>
+        <item>贡献榜</item>
+    </string-array>
+    <string-array name="mainpage_item">
+        <item>Recommond</item>
+        <item>Room</item>
+        <item>People</item>
+    </string-array>
+    <string-array name="kw_labels">
+        <item>官方推荐</item>
+        <item>女神</item>
+        <item>大神</item>
+        <item>职业玩家</item>
+        <item>美女</item>
+        <item>视频美女</item>
+        <item>国服第一</item>
+        <item>新游先锋</item>
+        <item>韩国明星</item>
+    </string-array>
+    <string-array name="kw_tabs">
+        <item>LOL</item>
+        <item>DNF</item>
+        <item>CF</item>
+        <item>DOTA2</item>
+        <item>其他</item>
+    </string-array>
+    <string-array name="shenqu_gift_feedback">
+        <item>谢谢我们家的宝贝 %s /{bq</item>
+        <item>谢谢 %s给我送的礼物 /{zan</item>
+        <item>谢谢 %s对我的支持 /{bq</item>
+    </string-array>
+</resources>

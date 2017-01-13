@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" >
+<!--
+        <LinearLayout
+            android:id="@+id/remote_view_group"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal" >
+
+            <com.ycloud.live.video.YCVideoView
+                android:id="@+id/remote_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="1" />
+
+            <com.ycloud.live.video.YCVideoView
+                android:id="@+id/video_view_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_weight="1" />
+        </LinearLayout>
+-->
+
+		<LinearLayout
+            android:id="@+id/remote_view_group"
+            android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal" >
+	         <com.ycloud.ycloudlivedemo.DoubleLayout
+                 android:id="@+id/double_layout_video"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:background="#ff000000" >
+	             <com.ycloud.live.video.YCVideoViewLayout
+	                    android:layout_width="wrap_content"
+		                android:layout_height="wrap_content"
+		                android:layout_centerHorizontal="true"
+		                android:layout_weight="1"
+		                android:background="#ff000000"
+	                    android:id="@+id/yvLayout">
+	             </com.ycloud.live.video.YCVideoViewLayout>
+	             <com.ycloud.live.video.YCVideoViewLayout
+	                    android:layout_width="wrap_content"
+		                android:layout_height="wrap_content"
+		                android:layout_alignParentRight="true"
+		                android:layout_weight="1"
+		                android:background="#ff000000"
+	                    android:id="@+id/yvLayout2" >
+	             </com.ycloud.live.video.YCVideoViewLayout>
+	         </com.ycloud.ycloudlivedemo.DoubleLayout>
+	    </LinearLayout>
+  
+        <CheckBox
+	         android:id="@+id/checkBoxSpeaker"
+	         android:layout_width="wrap_content"
+	         android:layout_height="wrap_content"
+	         android:layout_above="@+id/control_bar"
+	         android:layout_alignParentLeft="true"
+	         android:text="@string/Speaker" />
+
+        <FrameLayout
+            android:id="@+id/camera_preview"
+            android:layout_width="60dp"
+            android:layout_height="80dp"
+            android:layout_alignRight="@+id/remote_view_group"
+            android:layout_alignTop="@+id/remote_view_group"
+            android:background="#00000000"
+            android:visibility="invisible" />
+
+        <LinearLayout
+            android:id="@+id/control_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="#e0000000"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp" >
+
+            <ImageButton
+                android:id="@+id/btn_mic_mute2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:background="@null"
+                android:src="@drawable/btn_mic_mute" />
+
+            <ImageButton
+                android:id="@+id/btn_audio_mute2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:background="@null"
+                android:src="@drawable/btn_audio_mute"
+                android:visibility="visible" />
+
+            <ImageButton
+                android:id="@+id/btn_switch_video2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:background="@null"
+                android:src="@drawable/btn_video_switch"
+                android:visibility="visible" />
+
+            <ImageButton
+                android:id="@+id/btn_camera_switch"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:background="@null"
+                android:src="@drawable/btn_camera_switch"
+                android:visibility="visible" />
+
+            <ImageButton
+                android:id="@+id/btn_loudspeaker"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:background="@null"
+                android:src="@drawable/bg_call_speaker"
+                android:visibility="gone" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+       
+       
+       <ListView  
+           android:id="@+id/listview_chat"
+           android:layout_alignParentTop="true"
+           android:layout_above="@+id/send_toolbox"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:dividerHeight="0dp"
+           android:divider="@null"/>
+       
+        <LinearLayout
+            android:id="@+id/send_toolbox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal" >
+
+            <EditText
+                android:id="@+id/edittext_msg"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:hint="@string/input_msg" />
+
+            <Button
+                android:id="@+id/btn_send"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/send" />
+        </LinearLayout>
+        
+    </RelativeLayout>
+
+</LinearLayout>

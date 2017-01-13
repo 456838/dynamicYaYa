@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list android:oneshot="true"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:duration="50" android:drawable="@drawable/xinfei_0001" />
+    <item android:duration="50" android:drawable="@drawable/xinfei_0002" />
+    <item android:duration="50" android:drawable="@drawable/xinfei_0003" />
+    <item android:duration="50" android:drawable="@drawable/xinfei_0004" />
+    <item android:duration="50" android:drawable="@drawable/xinfei_0005" />
+    <item android:duration="50" android:drawable="@drawable/xinfei_0006" />
+    <item android:duration="50" android:drawable="@drawable/xinfei_0007" />
+    <item android:duration="50" android:drawable="@drawable/xinfei_0008" />
+    <item android:duration="50" android:drawable="@drawable/xinfei_0009" />
+    <item android:duration="50" android:drawable="@drawable/xinfei_0010" />
+    <item android:duration="50" android:drawable="@drawable/xinfei_0011" />
+    <item android:duration="50" android:drawable="@drawable/xinfei_0012" />
+    <item android:duration="50" android:drawable="@drawable/xinfei_0013" />
+</animation-list>

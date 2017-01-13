@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#fff"
+    android:orientation="vertical" >
+
+    <FrameLayout
+        android:id="@+id/fl_title_prelogin"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#fff" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="登　录"
+            android:textColor="#56acdf"
+            android:textSize="19sp"
+            android:textStyle="bold" />
+
+        <View
+            android:id="@+id/spliter"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_gravity="bottom"
+            android:background="@drawable/live_main_title_spliter" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dip" >
+
+        <ImageView
+            android:layout_width="80dip"
+            android:layout_height="80dip"
+            android:layout_gravity="center_horizontal"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/yy_bear_logo" />
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dip" >
+
+            <EditText
+                android:id="@+id/login_et_username"
+                android:layout_width="fill_parent"
+                android:layout_height="45dip"
+                android:background="@drawable/bg_input"
+                android:drawableLeft="@drawable/icon_passport"
+                android:hint="通行证/YY号/手机/邮箱"
+                android:imeOptions="actionNext"
+                android:paddingRight="90dip"
+                android:singleLine="true" />
+
+            <ImageButton
+                android:id="@+id/login_btn_show_accounts_list"
+                android:layout_width="38dip"
+                android:layout_height="38dip"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/selector_btn_transparent_black"
+                android:contentDescription="@string/app_name"
+                android:onClick="onShowUserListClick"
+                android:src="@drawable/ic_arrow_down" />
+
+            <ImageButton
+                android:layout_width="38dip"
+                android:layout_height="38dip"
+                android:layout_alignWithParentIfMissing="true"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/login_btn_show_accounts_list"
+                android:background="@drawable/selector_btn_transparent_black"
+                android:contentDescription="@string/app_name"
+                android:onClick="onClearUsername"
+                android:src="@drawable/ic_clear" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dip" >
+
+            <EditText
+                android:id="@+id/login_et_password"
+                android:layout_width="fill_parent"
+                android:layout_height="45dip"
+                android:background="@drawable/bg_input"
+                android:drawableLeft="@drawable/icon_password"
+                android:hint="密码"
+                android:imeOptions="actionGo"
+                android:inputType="textPassword"
+                android:singleLine="true" />
+
+            <ImageButton
+                android:layout_width="38dip"
+                android:layout_height="38dip"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/selector_btn_transparent_black"
+                android:contentDescription="@string/app_name"
+                android:onClick="onClearPassword"
+                android:src="@drawable/ic_clear" />
+        </RelativeLayout>
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/normal_btn_height"
+            android:layout_marginTop="20dip"
+            android:background="@drawable/btn_blue"
+            android:onClick="onLoginClick"
+            android:text="登　　录"
+            android:textColor="#fff"
+            android:textSize="17sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        android:padding="20dip" >
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/normal_btn_height"
+            android:layout_gravity="bottom"
+            android:background="@drawable/btn_blue"
+            android:onClick="onSmsLoginClick"
+            android:text="手机短信直接登录"
+            android:textColor="#fff"
+            android:textSize="17sp" />
+    </LinearLayout>
+
+</LinearLayout>

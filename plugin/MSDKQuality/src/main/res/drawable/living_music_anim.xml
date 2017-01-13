@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list android:oneshot="true"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:duration="100" android:drawable="@drawable/living_music01" />
+    <item android:duration="100" android:drawable="@drawable/living_music02" />
+    <item android:duration="100" android:drawable="@drawable/living_music03" />
+    <item android:duration="100" android:drawable="@drawable/living_music04" />
+    <item android:duration="100" android:drawable="@drawable/living_music05" />
+</animation-list>

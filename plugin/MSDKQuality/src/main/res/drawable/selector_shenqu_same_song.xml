@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="false" android:drawable="@color/shenqu_ta_work_norml" />
+    <item android:state_pressed="true" android:drawable="@color/shenqu_ta_work_press" />
+</selector>

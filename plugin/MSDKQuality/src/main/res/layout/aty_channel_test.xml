@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <!-- 第一条分割线 -->
+    <View
+        android:id="@+id/split_line1"
+        android:layout_width="match_parent"
+        android:layout_height="2dip"
+        android:layout_marginTop="0dip"
+        android:background="#FFCCCCCC" />
+
+    <!-- 频道ID输入框、 进入（按钮） -->
+    <LinearLayout
+        android:id="@+id/channel_id"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/split_line1"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/et_input_channelId"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:background="@null"
+            android:hint="请输入频道ID观看"
+            android:inputType="number"
+            android:maxLength="16"
+            android:singleLine="true"
+            android:textColorHint="#b3b3b3"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/btn_add"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:background="@mipmap/bg_yellow"
+            android:text="添加" />
+    </LinearLayout>
+    <!-- 第二条分割线 -->
+    <View
+        android:id="@+id/split_line2"
+        android:layout_width="match_parent"
+        android:layout_height="2dip"
+        android:layout_below="@+id/channel_id"
+        android:layout_marginTop="10dip"
+        android:background="#FFCCCCCC" />
+
+    <EditText
+        android:id="@+id/et_switch_time"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/split_line2"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@null"
+        android:hint="频道切换时间(s),默认10秒"
+        android:inputType="number"
+        android:maxLength="16"
+        android:singleLine="true"
+        android:textColorHint="#b3b3b3"
+        android:textSize="16sp" />
+
+    <!-- 第二条分割线 -->
+    <View
+        android:id="@+id/split_line3"
+        android:layout_width="match_parent"
+        android:layout_height="2dip"
+        android:layout_below="@+id/et_switch_time"
+        android:layout_marginTop="10dip"
+        android:background="#FFCCCCCC" />
+
+
+    <EditText
+        android:id="@+id/et_cycle_times"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/split_line3"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@null"
+        android:hint="循环次数"
+        android:inputType="number"
+        android:maxLength="16"
+        android:singleLine="true"
+        android:textColorHint="#b3b3b3"
+        android:textSize="16sp" />
+
+    <!-- 第二条分割线 -->
+    <View
+        android:id="@+id/split_line4"
+        android:layout_width="match_parent"
+        android:layout_height="2dip"
+        android:layout_below="@+id/et_cycle_times"
+        android:layout_marginTop="10dip"
+        android:background="#FFCCCCCC" />
+
+
+    <!-- 最近进入频道列表 -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/split_line4"
+        android:layout_marginBottom="10dp">
+
+        <TextView
+            android:id="@+id/text_recent_channel_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="20dp"
+            android:text="频道列表"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv_join_channel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/text_recent_channel_id"
+            android:layout_marginRight="40dp"
+            android:clickable="true"
+            android:text="开始测试"
+            android:textColor="@android:color/holo_blue_light"
+            android:textSize="16sp" />
+
+        <ListView
+            android:id="@+id/lv_channels"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/text_recent_channel_id"
+            android:layout_marginTop="10dp"
+            android:divider="#FFCC00" />
+    </RelativeLayout>
+
+
+</RelativeLayout>

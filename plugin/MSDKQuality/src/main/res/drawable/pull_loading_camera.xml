@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:duration="10" android:drawable="@drawable/loading_camera" />
+    <item android:duration="200" android:drawable="@drawable/loading_camera1" />
+    <item android:duration="200" android:drawable="@drawable/loading_camera2" />
+    <item android:duration="200" android:drawable="@drawable/loading_camera3" />
+    <item android:duration="200" android:drawable="@drawable/loading_camera4" />
+    <item android:duration="200" android:drawable="@drawable/loading_camera5" />
+</animation-list>
