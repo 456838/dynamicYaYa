@@ -11,7 +11,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp">
+        android:layout_marginTop="8dp"
+        android:visibility="gone"
+        >
 
         <TextView
             android:id="@+id/tv_host_name"
@@ -44,7 +46,9 @@
         android:layout_alignParentRight="true"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone"
+        >
 
         <ImageView
             android:layout_width="20dp"
@@ -70,6 +74,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="48dp"
         android:layout_marginLeft="4dp"
+        android:visibility="gone"
         >
         <ListView
             android:id="@+id/lst_message"
@@ -84,13 +89,13 @@
     </LinearLayout>
 
     <ScrollView
-        android:layout_width="250dp"
-        android:layout_height="200dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_above="@+id/ll_holder"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:scrollbarStyle="outsideOverlay"
-        android:visibility="gone">
+        >
 
         <TextView
             android:id="@+id/tv_lines"

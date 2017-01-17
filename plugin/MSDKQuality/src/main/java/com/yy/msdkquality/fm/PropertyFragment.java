@@ -1,5 +1,8 @@
 package com.yy.msdkquality.fm;
 
+import android.app.Activity;
+import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,10 +12,13 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.yy.IFragmentListener;
 import com.yy.msdkquality.R;
+import com.yy.msdkquality.aty.ChannelTestLivingRoomActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * User: 巫金生(newSalton@outlook.com)
@@ -75,6 +81,26 @@ public class PropertyFragment extends Fragment {
     TextView tvTempSign;
     @BindView(R.id.tv_sign)
     TextView tvSign;
+    @BindView(R.id.rl_publish_video)
+    RelativeLayout rlPublishVideo;
+    @BindView(R.id.rl_open_mic)
+    RelativeLayout rlOpenMic;
+
+    IFragmentListener mIFragmentListener;
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            onAttachToContext(activity);
+        }
+    }
+
+    private void onAttachToContext(Context activity) {
+        if (activity instanceof ChannelTestLivingRoomActivity) {
+            mIFragmentListener = (IFragmentListener) activity;
+        }
+    }
 
     @Nullable
     @Override
@@ -85,4 +111,15 @@ public class PropertyFragment extends Fragment {
     }
 
 
+    @OnClick({R.id.rl_publish_video, R.id.rl_open_mic})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.rl_publish_video:
+                mIFragmentListener.setOnViewClick(view.getId(), view);
+                break;
+            case R.id.rl_open_mic:
+                mIFragmentListener.setOnViewClick(view.getId(), view);
+                break;
+        }
+    }
 }

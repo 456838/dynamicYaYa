@@ -14,21 +14,24 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ycloud.live.YCConstant;
 import com.ycloud.live.YCMedia;
 import com.ycloud.live.YCMediaRequest;
 import com.ycloud.live.YCMessage;
-import com.ycloud.live.video.IVideoLiveCallback;
+import com.ycloud.live.video.YCCameraStatusListener;
 import com.ycloud.live.video.YCVideoPreview;
 import com.ycloud.live.video.YCVideoViewLayout;
 import com.ycloud.live.yyproto.ProtoEvent;
 import com.ycsignal.base.YYHandler;
 import com.ycsignal.outlet.IProtoMgr;
 import com.ycsignal.outlet.SDKParam;
+import com.yy.IFragmentListener;
 import com.yy.msdkquality.ChannelVideoLayoutController;
 import com.yy.msdkquality.R;
 import com.yy.msdkquality.YConfig;
@@ -42,8 +45,10 @@ import com.yy.saltonframework.util.LogUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * User: 巫金生(newSalton@outlook.com)
@@ -51,8 +56,9 @@ import java.util.Map;
  * Time: 15:17
  * Description:
  */
-public class ChannelTestLivingRoomActivity extends FragmentActivity implements VideoFragment.FragmentListener {
+public class ChannelTestLivingRoomActivity extends FragmentActivity implements IFragmentListener{
 
+    private static final int UPDATE_LOG = 0x100;
     private ViewPager viewPager;
     private List<Fragment> fragmentList;
     private ChannelVideoLayoutController mChannelVideoController = null;
@@ -81,20 +87,30 @@ public class ChannelTestLivingRoomActivity extends FragmentActivity implements V
         initData();
     }
 
+    public static interface Operation {
+        public static final int MSG_CAMERA_PREVIEW_CREATED = 1;
+        public static final int MSG_CAMERA_PREVIEW_STOP = 2;
+        public static final int MSG_GET_TOKEN_FAILED = 3;
+        public static final int MSG_SEND_SINGAL_FAILED = 4;
+    }
+
     VideoFragment mVideoFragment;
+    BusinessFragment mBusinessFragment;
+    private FrameLayout mCameraPreview;
 
     private void initView() {
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         fragmentList = new ArrayList<>();
         mVideoFragment = new VideoFragment();
-        BusinessFragment businessFragment = new BusinessFragment();
+        mBusinessFragment = new BusinessFragment();
         fragmentList.add(mVideoFragment);
-        fragmentList.add(businessFragment);
+        fragmentList.add(mBusinessFragment);
         viewPager.setAdapter(new MyViewPagerAdapter(getSupportFragmentManager(), fragmentList));
         viewPager.setCurrentItem(0);
         mViewLay = (YCVideoViewLayout) findViewById(R.id.yvLayout);
         mViewLay2 = (YCVideoViewLayout) findViewById(R.id.yvLayout2);
         mDoubleLayout = (DoubleLayout) findViewById(R.id.double_layout_video);
+        mCameraPreview = (FrameLayout) findViewById(R.id.camera_preview);
 
     }
 
@@ -102,55 +118,50 @@ public class ChannelTestLivingRoomActivity extends FragmentActivity implements V
 
         Intent intent = this.getIntent();
         mUid = intent.getIntExtra("uid", 456838);
-        mSid = intent.getIntExtra("sid", 10086);
+        mSid = intent.getIntExtra("sid", 3706);
         //注册信令事件处理
         IProtoMgr.instance().addHandlerWatcher(mSignalHandler);
         //摄像头事件回调
-        YCMedia.getInstance().setCameraStatusListener(new IVideoLiveCallback() {
-            @Override
-            public void onLiveLinkConnected(int i) {
-                LogUtils.e("onLiveLinkConnected:" + i);
-            }
-
-            @Override
-            public void onLiveLinkDisconnected(int i) {
-                LogUtils.e("onLiveLinkConnected:" + i);
-            }
-
+        YCMedia.getInstance().setCameraStatusListener(new YCCameraStatusListener() {
             @Override
             public void onPreviewCreated(YCVideoPreview ycVideoPreview) {
-                //摄像头产生预览
-                LogUtils.e("onPreviewCreated:" + ycVideoPreview.getVideoEncodeSize());
+                printToLog("callback onPreviewCreated");
+                Message msg = mMediaHandler.obtainMessage(Operation.MSG_CAMERA_PREVIEW_CREATED, ycVideoPreview);
+                mMediaHandler.sendMessage(msg);
             }
 
             @Override
             public void onPreviewStartSuccess() {
-                LogUtils.e("onPreviewStartSuccess");
+                printToLog("CameraActivity callback onPreviewStartSuccess");
             }
 
             @Override
             public void onPreviewStartFailed() {
-                LogUtils.e("onPreviewStartFailed");
+                printToLog("CameraActivity callback onPreviewStartFailed");
             }
 
             @Override
             public void onPreviewStopped() {
-                LogUtils.e("onPreviewStopped");
+                printToLog("CameraActivity callback onPreviewStopped");
+                mVideoPreview = null;
+                Message msg = mMediaHandler.obtainMessage();
+                msg.what = Operation.MSG_CAMERA_PREVIEW_STOP;
+                mMediaHandler.sendMessage(msg);
             }
 
             @Override
-            public void onOpenCameraFailed(FailReason failReason, String s) {
-                LogUtils.e("onOpenCameraFailed:" + failReason.name() + ";hit:" + s);
+            public void onOpenCameraFailed(FailReason failReason, String reasonText) {
+                printToLog("CameraActivity callback onOpenCameraFailed");
             }
 
             @Override
             public void onVideoRecordStarted() {
-                LogUtils.e("onVideoRecordStarted");
+                printToLog("CameraActivity callback onVideoRecordStarted");
             }
 
             @Override
             public void onVideoRecordStopped() {
-                LogUtils.e("onVideoRecordStopped");
+                printToLog("CameraActivity callback onVideoRecordStopped");
             }
         });
         //注册媒体事件处理
@@ -217,6 +228,8 @@ public class ChannelTestLivingRoomActivity extends FragmentActivity implements V
 
     public boolean mFirstClickPause = false;       //用于没有开播之前停止视频的播放
     public boolean mMediaPause = false;            //用于视频开播后停止视频的播放
+    private boolean mIsCameraStarted = false;
+    private boolean mIsVideoPublished = false;
 
     @Override
     public void setOnViewClick(int tag, View v) {
@@ -229,10 +242,12 @@ public class ChannelTestLivingRoomActivity extends FragmentActivity implements V
                 if (bSelect) {//一开始是unselected
                     mMediaPause = true;
                     mChannelVideoController.resumeSubscribeVideo();
+                    printToLog("调用了恢复订阅视频方法");
                     ((ImageView) v).setImageResource(R.drawable.jc_click_pause_selector);
                 } else {
                     mMediaPause = false;
-                    mChannelVideoController.stopSubscribeVideo();
+                    mChannelVideoController.onPauseSubscribeVideo();
+                    printToLog("调用了暂停订阅视频方法");
                     ((ImageView) v).setImageResource(R.drawable.jc_click_play_selector);
                 }
                 v.setSelected(!bSelect);
@@ -273,9 +288,65 @@ public class ChannelTestLivingRoomActivity extends FragmentActivity implements V
 //                mApp.getMediaVideo().switchVoice(selected2);
                 v.setSelected(!selected2);
                 break;
+            case R.id.rl_publish_video:
+                //广播视频
+                if (!mVideoLinkConnected) {
+                    Toast.makeText(getApplicationContext(), R.string.err_no_server,
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (mIsCameraStarted) {
+                    printToLog("停止服务器录制");
+                    //停止服务器录制
+                    YCMedia.getInstance().requestMethod(new YCMediaRequest.YCStopServerRecord());
+                    printToLog("停止视频流发布");
+                    //停止视频流发布
+                    YCMedia.getInstance().requestMethod(new YCMediaRequest.YCStopPublishVideo());
+                    printToLog("停止摄像头");
+                    //停止摄像头
+                    YCMedia.getInstance().requestMethod(new YCMediaRequest.YCStopCamera());
+                    ((TextView)v.findViewById(R.id.tv_sex)).setText("已开播");
+//                    mBtnVideoSwitch.setImageDrawable(getResources().getDrawable(R.drawable.btn_video_off));
+                    //mCameraPreview.removeAllViews();
+                    //mCameraPreview.setVisibility(View.INVISIBLE);
+                    mIsCameraStarted = false;
+                    mIsVideoPublished = false;
+                } else {
+                    //mCameraPreview.setVisibility(View.VISIBLE);
+                    YCMedia.getInstance().requestMethod(new YCMediaRequest.YCStartCamera(Camera.CameraInfo.CAMERA_FACING_BACK));
+//                    mBtnVideoSwitch.setImageDrawable(getResources().getDrawable(R.drawable.btn_video_on));
+                    ((TextView)v.findViewById(R.id.tv_sex)).setText("未开播");
+                    mIsCameraStarted = true;
+                }
+
+                break;
         }
     }
 
+    private void handleCameraPreviewReady(YCVideoPreview v) {
+
+        printToLog("预览刷新");
+
+        ((View) v).setVisibility(View.VISIBLE);
+        //v.bringToFront();
+        mCameraPreview.addView((View) v);
+
+
+        if (!mIsVideoPublished) {
+            //开始发布本地视频流
+            YCMedia.getInstance().requestMethod(new YCMediaRequest.YCStartPublishVideo());
+            //programId 唯一识别字符串, 生成字符串的规则是: channelid_appid_spkuid_timestamp
+            int mode = YCMessage.ServerRecordMode.SRM_CHANNEL;
+            String businessId = String.format("%d_%d_%d_%d", mSid, YConfig.mAppKey, mUid, System.currentTimeMillis());
+            Set<Integer> recordUidSet = new LinkedHashSet<Integer>();
+            recordUidSet.add(12345);
+            recordUidSet.add(2345);
+            printToLog("start server record mode: " + mode + " businessId: " + businessId + " uidSetCount: " + recordUidSet.size());
+            YCMedia.getInstance().requestMethod(new YCMediaRequest.YCStartServerRecord(mode, businessId, recordUidSet));
+            mIsVideoPublished = true;
+        }
+    }
 
     private YYHandler mSignalHandler = new YYHandler() {
         @MessageHandler(message = SDKParam.Message.messageId)
@@ -318,24 +389,54 @@ public class ChannelTestLivingRoomActivity extends FragmentActivity implements V
 
     public void printToLog(String msg) {
         LogUtils.i(msg);
+        Message message = Message.obtain();
+        message.what=UPDATE_LOG;
+        message.obj=msg;
+        mMediaHandler.sendMessage(message);
+//        mBusinessFragment.updateLog(msg + "\n");
     }
 
+    private void handlePreviewStoped() {
+        printToLog("handlePreviewStoped");
+        mCameraPreview.removeAllViews();
+    }
     Handler mMediaHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
+                case UPDATE_LOG :
+                    String msgStr = (String) msg.obj;
+                    mBusinessFragment.updateLog(msgStr + "\n");
+                    break ;
+                case Operation.MSG_CAMERA_PREVIEW_CREATED:
+                    handleCameraPreviewReady((YCVideoPreview) msg.obj);
+                    break;
+
+                case Operation.MSG_CAMERA_PREVIEW_STOP:
+                    handlePreviewStoped();
+                    break;
+
+                case Operation.MSG_GET_TOKEN_FAILED: {
+                    Toast.makeText(getApplicationContext(), "http get token failed", Toast.LENGTH_SHORT).show();
+                }
+                break;
+
+                case Operation.MSG_SEND_SINGAL_FAILED: {
+                    Toast.makeText(getApplicationContext(), "send login ap failed:", Toast.LENGTH_SHORT).show();
+                }
                 case YCMessage.MsgType.onVideoLinkInfoNotity:
                     YCMessage.VideoLinkInfo videoLinkInfo = (YCMessage.VideoLinkInfo) msg.obj;
-                    String baseInfo = String.format("appid:%d,ip:%s,port:$s,",videoLinkInfo.appId,videoLinkInfo.ip,videoLinkInfo.port);
+                    String baseInfo = String.format("appid:%d,ip:%s,port:$d", videoLinkInfo.appId, videoLinkInfo.ip, videoLinkInfo.port);
                     if (videoLinkInfo.state == YCMessage.VideoLinkInfo.Connect) {
-                        printToLog("视频连接中:"+baseInfo);
-                    }else if(videoLinkInfo.state == YCMessage.VideoLinkInfo.Connected){
-                        printToLog("视频已经连接中:"+baseInfo);
-                    }else if(videoLinkInfo.state == YCMessage.VideoLinkInfo.Disconnected){
-                        printToLog("视频断开连接:"+baseInfo);
-                    }else if(videoLinkInfo.state == YCMessage.VideoLinkInfo.ServerReject){
-                        printToLog("服务器拒绝视频连接:"+baseInfo);
+                        printToLog("视频连接中:" + baseInfo);
+                    } else if (videoLinkInfo.state == YCMessage.VideoLinkInfo.Connected) {
+                        printToLog("视频已经连接中:" + baseInfo);
+                    } else if (videoLinkInfo.state == YCMessage.VideoLinkInfo.Disconnected) {
+                        printToLog("视频断开连接:" + baseInfo);
+                    } else if (videoLinkInfo.state == YCMessage.VideoLinkInfo.ServerReject) {
+                        printToLog("服务器拒绝视频连接:" + baseInfo);
                     }
+                    mVideoLinkConnected = videoLinkInfo.state == YCMessage.VideoLinkInfo.Connected ? true : false;
                     //放在business里面
                     break;
                 case YCMessage.MsgType.onVideoStreamInfoNotify:
@@ -345,12 +446,12 @@ public class ChannelTestLivingRoomActivity extends FragmentActivity implements V
                     int audoSubscribe = streamInfo.audoSubscribe;
                     int state = streamInfo.state;
                     long streamId = streamInfo.streamId;
-                    if(state== YCMessage.VideoStreamInfo.Arrive){
-                        printToLog("视频流到来:"+String.format("userGroupId:%d,publishId:%d,audoSubscribe:%d,streamId:%d",userGroupId,publishId,audoSubscribe,streamId));
-                    }else if(state== YCMessage.VideoStreamInfo.Start){
-                        printToLog("视频流开始:"+String.format("userGroupId:%d,publishId:%d,audoSubscribe:%d,streamId:%d",userGroupId,publishId,audoSubscribe,streamId));
-                    }else if(state== YCMessage.VideoStreamInfo.Stop){
-                        printToLog("视频流停止:"+String.format("userGroupId:%d,publishId:%d,audoSubscribe:%d,streamId:%d",userGroupId,publishId,audoSubscribe,streamId));
+                    if (state == YCMessage.VideoStreamInfo.Arrive) {
+                        printToLog("视频流到来:" + String.format("userGroupId:%d,publishId:%d,audoSubscribe:%d,streamId:%d", userGroupId, publishId, audoSubscribe, streamId));
+                    } else if (state == YCMessage.VideoStreamInfo.Start) {
+                        printToLog("视频流开始:" + String.format("userGroupId:%d,publishId:%d,audoSubscribe:%d,streamId:%d", userGroupId, publishId, audoSubscribe, streamId));
+                    } else if (state == YCMessage.VideoStreamInfo.Stop) {
+                        printToLog("视频流停止:" + String.format("userGroupId:%d,publishId:%d,audoSubscribe:%d,streamId:%d", userGroupId, publishId, audoSubscribe, streamId));
                     }
                     mVideoFragment.setText(R.id.anchor, "" + streamInfo.publishId);
                     break;
@@ -365,73 +466,176 @@ public class ChannelTestLivingRoomActivity extends FragmentActivity implements V
                     break;
                 case YCMessage.MsgType.onVideoDownlinkPlrNotify:
                     YCMessage.VideoDownlinkPlrInfo videoDownlinkPlrInfo = (YCMessage.VideoDownlinkPlrInfo) msg.obj;
+                    int uid = videoDownlinkPlrInfo.uid;
+                    float plr = videoDownlinkPlrInfo.plr;
+                    printToLog("视频下载链路，uid:" + uid + ",丢包率:" + plr);
                     break;
                 case YCMessage.MsgType.onVideoliveBroadcastNotify:
+                    YCMessage.VideoliveBroadcastInfo videoliveBroadcastInfo = (YCMessage.VideoliveBroadcastInfo) msg.obj;
+                    boolean hasVideo = videoliveBroadcastInfo.hasVideo;
+                    printToLog("hasVideo:" + hasVideo);
                     break;
                 case YCMessage.MsgType.onVideoCodeRateNotify:
+                    YCMessage.VideoCodeRateInfo videoCodeRateInfo = (YCMessage.VideoCodeRateInfo) msg.obj;
+                    int appid = videoCodeRateInfo.appid;
+                    Map<Integer, Integer> codeRateList = videoCodeRateInfo.codeRateList;
+                    printToLog("appid:" + appid + ",codeRateList.size:" + codeRateList.size());
                     break;
                 case YCMessage.MsgType.onVideoCodeRateChange:
+                    YCMessage.VideoCodeRateChange videoCodeRateChange = (YCMessage.VideoCodeRateChange) msg.obj;
+                    int codeRate = videoCodeRateChange.codeRate;
+                    int result = videoCodeRateChange.result;
+                    String retStr = result == 1 ? "change" : "unchanged";
+                    printToLog("onVideoCodeRateChange，result:" + retStr + ",codeRate:" + codeRate);
                     break;
                 case YCMessage.MsgType.onVideoMetaInfoNotify:
+                    YCMessage.VideoMetaInfo videoMetaInfo = (YCMessage.VideoMetaInfo) msg.obj;
+                    long streamId4 = videoMetaInfo.streamId;
+                    int bitRate = videoMetaInfo.bitRate;
+                    int frameRate2 = videoMetaInfo.frameRate;
+                    printToLog("Meta信息，streamId:" + streamId4 + ",bitRate:" + bitRate + ",frameRate" + frameRate2);
                     break;
                 case YCMessage.MsgType.onNoVideoNotify:
+                    YCMessage.NoVideoInfo noVideoInfo = (YCMessage.NoVideoInfo) msg.obj;
+                    long streamId3 = noVideoInfo.streamId;
+                    int reason = noVideoInfo.reason;
+                    printToLog("onNoVideoNotify,streamID:" + streamId3 + ",reason:" + SDKEngine.getNoVideoReason(reason));
                     break;
                 case YCMessage.MsgType.onVideoDecodeSlowNotify:
+
+                    printToLog("onVideoDecodeSlowNotify");
                     break;
                 case YCMessage.MsgType.onVideoFrameLossNotify:
+                    YCMessage.VideoFrameLossInfo videoFrameLossInfo = (YCMessage.VideoFrameLossInfo) msg.obj;
+                    long streamId2 = videoFrameLossInfo.streamId;
+                    int duration = videoFrameLossInfo.duration;
+                    int frameRate = videoFrameLossInfo.frameRate;
+                    int playCnt = videoFrameLossInfo.playCnt;
+                    int netLossCnt = videoFrameLossInfo.netLossCnt;
+                    int discardCnt = videoFrameLossInfo.discardCnt;
+                    printToLog("streamId:" + streamId2 + ",统计间隔:" + duration + ",丢失帧率:" + frameRate + ",播放帧数:" + playCnt + ",网络丢失帧率：" + netLossCnt + ",主动丢失帧率:" + discardCnt);
                     break;
                 case YCMessage.MsgType.onVideoCodeRateLevelSuggest:
+                    printToLog("onVideoCodeRateLevelSuggest");
                     break;
                 case YCMessage.MsgType.onVideoPublishStatus:
+                    printToLog("onVideoPublishStatus");
                     break;
                 case YCMessage.MsgType.onVideoUplinkLossRateNotify:
+                    printToLog("onVideoUplinkLossRateNotify");
                     break;
                 case YCMessage.MsgType.onServerRecodRes:
+                    printToLog("onServerRecodRes");
                     break;
                 case YCMessage.MsgType.onVideoViewerStatInfo:
+                    printToLog("视频下行统计回调,onVideoViewerStatInfo");
+                    YCMessage.VideoViewerStatInfo videoViewerStatInfo = (YCMessage.VideoViewerStatInfo) msg.obj;
+                    int uid2 = 0;
+                    Map<Integer, Integer> statMap = new HashMap();
+                    for (int i = 0; i < statMap.size(); i++) {
+                        printToLog("statMap:" + statMap.get(i).intValue());
+                    }
+                    Map<Long, YCMessage.StreamStatInfo> streamMap = new HashMap();
+                    for (int j = 0; j < streamMap.size(); j++) {
+                        int len = streamMap.get(j).dataMap.size();
+                        for (int k = 0; k < len; k++) {
+                            printToLog("streamMap:" + streamMap.get(j).dataMap.get(k).intValue());
+                        }
+                    }
+
                     break;
                 case YCMessage.MsgType.onVideoPublisherStatInfo:
+                    printToLog("onVideoPublisherStatInfo");
                     break;
                 case YCMessage.MsgType.onVideoMetaDataInfo:
+                    YCMessage.VideoMetaDataInfo videoMetaDataInfo = (YCMessage.VideoMetaDataInfo) msg.obj;
+                    int publishId2 = videoMetaDataInfo.publishId;
+                    long streamId5 = videoMetaDataInfo.streamId;
+                    long userGroupId2 = videoMetaDataInfo.userGroupId;
+//                    Map<Byte, Integer> metaDatas = videoMetaDataInfo.metaDatas;
+//                    for (int i = 0; i < metaDatas.size(); i++) {
+//                        printToLog("metaDatas:" + metaDatas.get(i).byteValue());
+//                    }
+                    printToLog("Video元消息，publishId:" + publishId2 + ",streamId5:" + streamId5 + ",userGroupId2:" + userGroupId2);
                     break;
                 case YCMessage.MsgType.onAudioLinkInfoNotity:
                     YCMessage.AudioLinkInfo audioLinkInfo = (YCMessage.AudioLinkInfo) msg.obj;
-                    LogUtils.d("onAudioLinkInfoNotity, state: " + audioLinkInfo.state);
+                    int state3 = audioLinkInfo.state;
+                    int ip = audioLinkInfo.ip;
+                    short port = audioLinkInfo.port;
+                    printToLog("onAudioLinkInfoNotity, state: " + audioLinkInfo.state + ",ip:" + ip + ",port:" + port);
                     break;
                 case YCMessage.MsgType.onAudioSpeakerInfoNotity:
                     YCMessage.AudioSpeakerInfo speakerInfo = (YCMessage.AudioSpeakerInfo) msg.obj;
-                    LogUtils.d("onAudioSpeakerInfoNotity, state: " + speakerInfo.state);
+//                    LogUtils.d("onAudioSpeakerInfoNotity, state: " + speakerInfo.state);
+                    String stateStr2 = speakerInfo.state == YCMessage.AudioSpeakerInfo.Start ? "开始" : "接收";
+                    printToLog("说话者信息，uid:" + speakerInfo.uid + ",状态:" + stateStr2);
                     break;
                 case YCMessage.MsgType.onMicStateInfoNotify:
                     YCMessage.MicStateInfo micStateInfo = (YCMessage.MicStateInfo) msg.obj;
                     LogUtils.d("onMicStateInfoNotify, state: " + micStateInfo.state);
+                    printToLog("onMicStateInfoNotify");
                     break;
                 case YCMessage.MsgType.onAudioStreamVolume:
+                    YCMessage.AudioVolumeInfo audioVolumeInfo = (YCMessage.AudioVolumeInfo) msg.obj;
+                    printToLog("音频流音量，uid:" + audioVolumeInfo.uid + ",volume:" + audioVolumeInfo.volume);
                     break;
                 case YCMessage.MsgType.onChannelAudioStateNotify:
+                    YCMessage.ChannelAudioStateInfo channelAudioStateInfo = (YCMessage.ChannelAudioStateInfo) msg.obj;
+                    String channelAudioStateInfoState = "";
+                    if (channelAudioStateInfo.state == YCMessage.ChannelAudioStateInfo.NoAudio) {
+                        channelAudioStateInfoState = "没有音频";
+                    } else if (channelAudioStateInfo.state == YCMessage.ChannelAudioStateInfo.RecvAudio) {
+                        channelAudioStateInfoState = "接收到音频";
+                    } else if (channelAudioStateInfo.state == YCMessage.ChannelAudioStateInfo.RecvNoAudio) {
+                        channelAudioStateInfoState = "接收不到音频";
+                    }
+                    printToLog("频道音频状态，sid:" + channelAudioStateInfo.sid + ",状态：" + channelAudioStateInfoState);
                     break;
                 case YCMessage.MsgType.onPlayAudioStateNotify:
+                    YCMessage.PlayAudioStateInfo playAudioStateInfo = (YCMessage.PlayAudioStateInfo) msg.obj;
+                    printToLog("播放音频质量，speakerUid:" + playAudioStateInfo.speakerUid + ",播放帧数量：" + playAudioStateInfo.playFrameCount + ",服务器丢失帧数量：" + playAudioStateInfo.lossFrameCount + "服务器丢失帧数量：" + playAudioStateInfo.discardFrameCount + ",时间间隔：" + playAudioStateInfo.duration);
+
                     break;
                 case YCMessage.MsgType.onAudioLinkStatics:
+                    YCMessage.AudioLinkStatics audioLinkStatics = (YCMessage.AudioLinkStatics) msg.obj;
+                    int rtt = audioLinkStatics.rtt;
+                    int upSendNum = audioLinkStatics.upSendNum;
+                    int upRecvNum = audioLinkStatics.upRecvNum;
+                    int downSendNum = audioLinkStatics.downSendNum;
+                    int downRecvNum = audioLinkStatics.downRecvNum;
+                    int state2 = audioLinkStatics.state;
+                    printToLog("rtt:" + rtt + ",本地发送语音:" + upSendNum + ",服务器接收语音包:" + upRecvNum + ",服务器发送语音包:" + downSendNum + ",本地接收语音包:" + downRecvNum + ",state:" + state2);
+//                    printToLog("onAudioLinkStatics");
                     break;
                 case YCMessage.MsgType.onAudioCaptureStatus:
+                    printToLog("onAudioCaptureStatus");
                     break;
                 case YCMessage.MsgType.onAudioRendStatus:
+                    printToLog("onAudioRendStatus");
                     break;
                 case YCMessage.MsgType.onAudioCaptureVolume:
+                    printToLog("onAudioCaptureVolume");
                     break;
                 case YCMessage.MsgType.onMediaInnerCommandNotify:
+                    printToLog("onMediaInnerCommandNotify");
                     YCMessage.MediaInnerCommandInfo cmdInfo = (YCMessage.MediaInnerCommandInfo) msg.obj;
                     break;
                 case YCMessage.MsgType.onMediaSdkReady:
+                    YCMessage.MediaSdkReadyInfo mediaSdkReadyInfo = (YCMessage.MediaSdkReadyInfo) msg.obj;
+                    String stateStr = mediaSdkReadyInfo.state == YCMessage.MediaSdkReadyInfo.Ready ? "MeidaSdk初始化成功" : "MeidaSdk初始化失败";
+                    printToLog(stateStr);
                     break;
                 case YCMessage.MsgType.onChatTextNotify:
+                    printToLog("onChatTextNotify");
                     YCMessage.ChatText sessionText = (YCMessage.ChatText) msg.obj;
                     LogUtils.d("onChatTextNotify msg:" + sessionText.text);
                     break;
                 case YCMessage.MsgType.onAppUplinkFlowNotify:
+                    printToLog("onAppUplinkFlowNotify");
                     break;
                 case YCMessage.MsgType.onAudioDiagnoseResInfo:
+                    printToLog("onAudioDiagnoseResInfo");
                     break;
                 default:
                     LogUtils.d("can't handle the message:" + msg.what);
@@ -439,6 +643,13 @@ public class ChannelTestLivingRoomActivity extends FragmentActivity implements V
             }
         }
     };
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        leave();
+    }
 
     private void leave() {
         IProtoMgr.instance().removeHandlerWatcher(mSignalHandler);
@@ -456,7 +667,5 @@ public class ChannelTestLivingRoomActivity extends FragmentActivity implements V
         YCMedia.getInstance().requestMethod(new YCMediaRequest.YCLogout());
         //mCameraPreview.removeAllViews();
     }
-
-
 }
 

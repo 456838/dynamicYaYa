@@ -8,6 +8,7 @@ import android.os.Process;
 import com.hjc.SDKParam.SDKParam;
 import com.ycloud.live.YCMedia;
 import com.ycloud.live.YCMediaRequest;
+import com.ycloud.live.YCMessage;
 import com.ycloud.live.yyproto.ProtoReq;
 import com.ycsignal.outlet.IProtoMgr;
 import com.yy.saltonframework.util.LogUtils;
@@ -198,5 +199,54 @@ public class SDKEngine {
         textChatReq.topSid = sid;
         textChatReq.context = context;
         handlerRequestResult(sendProtoRequest(textChatReq.getBytes()));
+    }
+
+    public static String getNoVideoReason(int reasonType) {
+        String resonStr = "";
+        switch (reasonType) {
+            case YCMessage.NoVideoInfo.HAS_VIDEO_PLAY:
+                resonStr = "HAS_VIDEO_PLAY";
+                break;
+            case YCMessage.NoVideoInfo.NO_VIDEO_SUBSCRIBE:
+                resonStr = "NO_VIDEO_SUBSCRIBE";
+                break;
+            case YCMessage.NoVideoInfo.NO_VIDEO_PACKET:
+                resonStr = "NO_VIDEO_PACKET";
+                break;
+            case YCMessage.NoVideoInfo.NO_VIDEO_FRAME:
+                resonStr = "NO_VIDEO_FRAME";
+                break;
+            case YCMessage.NoVideoInfo.NO_VIDEO_PUSH_TO_DECODE:
+                resonStr = "NO_VIDEO_PUSH_TO_DECODE";
+                break;
+            case YCMessage.NoVideoInfo.NO_VIDEO_ON_PLAY:
+                resonStr = "NO_VIDEO_ON_PLAY";
+                break;
+            case YCMessage.NoVideoInfo.VIDEO_DECODE_ERROR:
+                resonStr = "VIDEO_DECODE_ERROR";
+                break;
+            case YCMessage.NoVideoInfo.NOT_SUBSCRIBE_BY_PLUGIN:
+                resonStr = "NOT_SUBSCRIBE_BY_PLUGIN";
+                break;
+            case YCMessage.NoVideoInfo.NO_VIDEO_I_FRAME:
+                resonStr = "NO_VIDEO_I_FRAME";
+                break;
+            case YCMessage.NoVideoInfo.NO_VIDEO_VIEW:
+                resonStr = "NO_VIDEO_VIEW";
+                break;
+            case YCMessage.NoVideoInfo.NO_FETCH_VIDEO_PROXY:
+                resonStr = "NO_FETCH_VIDEO_PROXY";
+                break;
+            case YCMessage.NoVideoInfo.NO_VIDEO_LIVE:
+                resonStr = "NO_VIDEO_LIVE";
+                break;
+            case YCMessage.NoVideoInfo.TCP_LOGIN_FAILED:
+                resonStr = "TCP_LOGIN_FAILED";
+                break;
+            case YCMessage.NoVideoInfo.NO_RECV_STREAM_ID:
+                resonStr = "NO_RECV_STREAM_ID";
+                break;
+        }
+        return resonStr;
     }
 }

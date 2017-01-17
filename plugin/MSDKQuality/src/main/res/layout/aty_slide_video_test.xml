@@ -43,4 +43,14 @@
         android:flipInterval="30"
         android:persistentDrawingCache="animation" />
 
+    <FrameLayout
+        android:id="@+id/camera_preview"
+        android:layout_width="60dp"
+        android:layout_height="80dp"
+        android:layout_alignRight="@+id/remote_view_group"
+        android:layout_alignTop="@+id/remote_view_group"
+        android:layout_gravity="top|right"
+        android:background="#ff000000"
+        android:visibility="invisible" />
+
 </FrameLayout>

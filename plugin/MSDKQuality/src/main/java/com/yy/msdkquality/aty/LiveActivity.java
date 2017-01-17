@@ -289,8 +289,8 @@ public class LiveActivity extends Activity implements YCCameraStatusListener {
 
         //获取UI设置
         Intent intent = this.getIntent();
-        mUid = intent.getIntExtra("uid", 0);
-        mSid = intent.getIntExtra("sid", 0);
+        mUid = intent.getIntExtra("uid", 563185579);
+        mSid = intent.getIntExtra("sid", 3706);
         boolean isLowLatencyModel = intent.getBooleanExtra("loginModel", false);
 
         //注册信令事件处理

@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.yy.IFragmentListener;
 import com.yy.msdkquality.R;
 import com.yy.msdkquality.aty.ChannelTestLivingRoomActivity;
 import com.yy.saltonframework.util.LogUtils;
@@ -71,12 +72,7 @@ public class VideoFragment extends Fragment {
     @BindView(R.id.layout_top)
     LinearLayout layoutTop;
 
-
-    public static interface FragmentListener {
-        void setOnViewClick(int tag, View v);
-    }
-
-    FragmentListener mFragmentListener;
+    IFragmentListener mIFragmentListener;
 
     @Override
     public void onAttach(Activity activity) {
@@ -89,7 +85,7 @@ public class VideoFragment extends Fragment {
 
     private void onAttachToContext(Context activity) {
         if (activity instanceof ChannelTestLivingRoomActivity) {
-            mFragmentListener = (FragmentListener) activity;
+            mIFragmentListener = (IFragmentListener) activity;
         }
     }
 
@@ -102,6 +98,7 @@ public class VideoFragment extends Fragment {
     private boolean isShow = false;
 
     public View mContentView;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -116,19 +113,19 @@ public class VideoFragment extends Fragment {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_property:
-                mFragmentListener.setOnViewClick(view.getId(), view.getRootView());
+                mIFragmentListener.setOnViewClick(view.getId(), view.getRootView());
                 break;
             case R.id.iv_audio_mute:
-                mFragmentListener.setOnViewClick(view.getId(), view);
+                mIFragmentListener.setOnViewClick(view.getId(), view);
                 break;
             case R.id.iv_fullscreen:
-                mFragmentListener.setOnViewClick(view.getId(), view);
+                mIFragmentListener.setOnViewClick(view.getId(), view);
                 break;
             case R.id.layout_bottom:
                 break;
             case R.id.start:
                 LogUtils.e("start btn clicked!");
-                mFragmentListener.setOnViewClick(view.getId(), view);
+                mIFragmentListener.setOnViewClick(view.getId(), view);
                 break;
             case R.id.ll_video:
                 if (isShow) {
@@ -142,7 +139,7 @@ public class VideoFragment extends Fragment {
 
                 break;
             case R.id.ll_property:
-                mFragmentListener.setOnViewClick(view.getId(), view.getRootView());
+                mIFragmentListener.setOnViewClick(view.getId(), view.getRootView());
                 break;
         }
     }

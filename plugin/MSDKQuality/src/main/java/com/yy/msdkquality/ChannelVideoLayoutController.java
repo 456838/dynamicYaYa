@@ -26,7 +26,7 @@ public class ChannelVideoLayoutController {
     private long mView1Streamid = 0; //streamid that view1 linkto
     private long mView2Streamid = 0; //streamid that view2 linkto
      
-    private static final String TAG = "ChannelVideoController";
+    private static final String TAG = "ChannelVideoLayoutController";
 
     
     private List<YCMessage.VideoStreamInfo> mCurStreamList = new ArrayList<YCMessage.VideoStreamInfo>();

@@ -314,6 +314,7 @@
             android:textSize="12sp" />
 
         <RelativeLayout
+            android:id="@+id/rl_publish_video"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="@drawable/btn_list_item_bg"
@@ -358,7 +359,9 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="@drawable/btn_list_item_bg"
-            android:clickable="true">
+            android:clickable="true"
+            android:id="@+id/rl_open_mic"
+            >
 
             <TextView
                 android:id="@+id/tv_temp_open_mic"

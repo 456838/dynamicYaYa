@@ -117,7 +117,7 @@ public class TokenEngine {
     }
 
     public static byte[] genToken(int uid, int sid, int au) {
-        long tokenExpire = (new Date().getTime() + 120000) / 1000;
+        long tokenExpire = (new Date().getTime() + 1200000) / 1000;
 //        String context = String.format("{\"bucket\":\"%s\",\"filename\":\"%s\"}", "hamburgbucket01", "hello.mp3");
         SaltonTokenBuilder builder = new SaltonTokenBuilder(YConfig.mAppKey, YConfig.mAppSecret,YConfig.mAppVersion, tokenExpire);
         builder.addTokenExtendProperty("UID", Unsigned.uint(uid)).

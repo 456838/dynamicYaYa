@@ -66,7 +66,6 @@ public class BusinessFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        int[] svcTypes = new int[2];
     }
 
 
@@ -86,6 +85,9 @@ public class BusinessFragment extends Fragment {
 //        lstMessage.setAdapter(mChatMsgListAdapter);
     }
 
+    public void updateLog(String message) {
+        tvLines.append(message + "\n");
+    }
 
 
     @Override

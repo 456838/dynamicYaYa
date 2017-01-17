@@ -28,7 +28,6 @@ dependencies {
     compile 'cn.bingoogolapple:bga-refreshlayout:+'
     compile 'cn.bingoogolapple:bga-refreshlayout:1.1.7@aar'
     compile 'cn.bingoogolapple:bga-adapter:+'
-    compile 'com.beardedhen:androidbootstrap:2.3.1'
     compile 'org.xutils:xutils:3.3.36'
     //国内比较优秀的框架，集合图片显示，DB，注解，Http请求
     compile 'de.hdodenhof:circleimageview:2.1.0'
