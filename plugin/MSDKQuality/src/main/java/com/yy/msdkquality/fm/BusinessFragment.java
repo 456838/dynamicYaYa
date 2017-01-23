@@ -20,6 +20,7 @@ import com.yy.msdkquality.R;
 import com.yy.msdkquality.YConfig;
 import com.yy.msdkquality.adapter.ChatMsgListAdapter;
 import com.yy.msdkquality.bean.ChatEntity;
+import com.yy.saltonframework.widget.logcat.ColorTextView;
 
 import java.util.ArrayList;
 import java.util.Timer;
@@ -49,7 +50,7 @@ public class BusinessFragment extends Fragment {
     @BindView(R.id.lst_message)
     ListView lstMessage;
     @BindView(R.id.tv_lines)
-    TextView tvLines;
+    ColorTextView tvLines;
 
 
     private ArrayList<ChatEntity> mArrayListChatEntity;
@@ -85,8 +86,8 @@ public class BusinessFragment extends Fragment {
 //        lstMessage.setAdapter(mChatMsgListAdapter);
     }
 
-    public void updateLog(String message) {
-        tvLines.append(message + "\n");
+    public void updateLog(int TAG, String message) {
+        tvLines.refreshLogcat(TAG, message);
     }
 
 
