@@ -6,6 +6,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,11 +17,19 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.orhanobut.logger.Logger;
+import com.ycloud.live.utils.CpuInfoUtils;
+import com.ycloud.live.utils.HwCodecConfig;
+import com.ycsignal.base.YYHandler;
+import com.ycsignal.outlet.IProtoMgr;
+import com.ycsignal.outlet.SDKParam;
 import com.yy.msdkquality.R;
 import com.yy.msdkquality.YConfig;
 import com.yy.msdkquality.adapter.ChatMsgListAdapter;
 import com.yy.msdkquality.bean.ChatEntity;
+import com.yy.saltonframework.util.LogUtils;
 import com.yy.saltonframework.widget.logcat.ColorTextView;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Timer;
@@ -67,8 +76,40 @@ public class BusinessFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        IProtoMgr.instance().addHandlerWatcher(new MyYYHandler());
     }
 
+    /**
+     * yy消息处理
+     */
+    class MyYYHandler extends YYHandler {
+        @MessageHandler(message = SDKParam.Message.messageId)
+        public void onEvent(byte[] data) {
+            Log.e("aa", new String(data));
+            handleProtoMsg(new String(data));
+        }
+    }
+
+    private void handleProtoMsg(String jsonStr) {
+        try {
+            JSONObject top = new JSONObject(jsonStr);
+            int eventType = top.getInt("eventType");
+            updateLog(ColorTextView.SIGNAL,"eventType:"+eventType);
+            switch (eventType) {
+                case 512:       //公屏信息,带context
+                    break;
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        IProtoMgr.instance().removeHandlerWatcher(new MyYYHandler());
+    }
 
     @Nullable
     @Override
@@ -82,12 +123,33 @@ public class BusinessFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mArrayListChatEntity = new ArrayList<ChatEntity>();
+        if (HwCodecConfig.getH264DecoderSupport().name().equals("SUPPORTED")) {
+            LogUtils.e("系统支持硬解");
+            updateLog(ColorTextView.VIDEO, "系统支持硬解");
+        } else if (HwCodecConfig.getH264DecoderSupport().name().equals("UNSUPPORTED")) {
+            updateLog(ColorTextView.VIDEO, "系统不支持硬解");
+            LogUtils.e("系统不支持硬解");
+        } else if (HwCodecConfig.getH264DecoderSupport().name().equals("UNSUPPORTED")) {
+            updateLog(ColorTextView.VIDEO, "无法确定系统是否支持硬解");
+            LogUtils.e("无法确定系统是否支持硬解");
+        }
+
+        if (HwCodecConfig.getH264EncoderSupport().name().equals("SUPPORTED")) {
+            updateLog(ColorTextView.VIDEO, "系统支持硬编");
+        } else if (HwCodecConfig.getH264EncoderSupport().name().equals("UNSUPPORTED")) {
+            updateLog(ColorTextView.VIDEO, "系统不支持硬编");
+        } else if (HwCodecConfig.getH264EncoderSupport().name().equals("UNSUPPORTED")) {
+            updateLog(ColorTextView.VIDEO, "无法确定系统是否支持硬编");
+        }
+        updateLog(ColorTextView.OTHER,"cpuName:"+ CpuInfoUtils.getCpuName()+",info:"+CpuInfoUtils.readCpuInfo());
 //        mChatMsgListAdapter = new ChatMsgListAdapter(getActivity(), lstMessage, mArrayListChatEntity);
 //        lstMessage.setAdapter(mChatMsgListAdapter);
     }
 
     public void updateLog(int TAG, String message) {
+//        if(tvLines!=null){
         tvLines.refreshLogcat(TAG, message);
+//        }
     }
 
 

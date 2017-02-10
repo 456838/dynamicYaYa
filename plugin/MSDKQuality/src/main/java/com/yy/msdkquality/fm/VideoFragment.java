@@ -18,6 +18,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.beardedhen.androidbootstrap.AwesomeTextView;
+import com.ycloud.live.utils.HwCodecConfig;
 import com.yy.IFragmentListener;
 import com.yy.msdkquality.R;
 import com.yy.msdkquality.aty.ChannelTestLivingRoomActivity;
@@ -73,6 +75,14 @@ public class VideoFragment extends Fragment {
     LinearLayout layoutTop;
 
     IFragmentListener mIFragmentListener;
+    @BindView(R.id.tv_openMic)
+    AwesomeTextView tvOpenMic;
+    @BindView(R.id.tv_muteaudio)
+    AwesomeTextView tvMuteaudio;
+    @BindView(R.id.tv_lvzhi)
+    AwesomeTextView tvLvzhi;
+    @BindView(R.id.tv_camera)
+    AwesomeTextView tvCamera;
 
     @Override
     public void onAttach(Activity activity) {
@@ -108,8 +118,14 @@ public class VideoFragment extends Fragment {
         return view;
     }
 
+    ChannelTestLivingRoomActivity mActivity ;
+    private void initData(){
+        mActivity = (ChannelTestLivingRoomActivity) getActivity();
+        anchor.setText(mActivity.mUid);
+        textDecode.setText(HwCodecConfig.isHw264DecodeEnabled()==true?"解    码：硬解":"解    码：软解");
+    }
 
-    @OnClick({R.id.tv_property, R.id.iv_audio_mute, R.id.iv_fullscreen, R.id.layout_bottom, R.id.start, R.id.ll_video, R.id.propertyFragment, R.id.ll_property})
+    @OnClick({R.id.tv_property, R.id.iv_audio_mute, R.id.iv_fullscreen, R.id.layout_bottom, R.id.start, R.id.ll_video, R.id.propertyFragment, R.id.ll_property,R.id.tv_openMic, R.id.tv_muteaudio, R.id.tv_lvzhi, R.id.tv_camera})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_property:
@@ -138,7 +154,16 @@ public class VideoFragment extends Fragment {
             case R.id.propertyFragment:
 
                 break;
-            case R.id.ll_property:
+            case R.id.tv_openMic:
+                mIFragmentListener.setOnViewClick(view.getId(), view.getRootView());
+                break;
+            case R.id.tv_muteaudio:
+                mIFragmentListener.setOnViewClick(view.getId(), view.getRootView());
+                break;
+            case R.id.tv_lvzhi:
+                mIFragmentListener.setOnViewClick(view.getId(), view.getRootView());
+                break;
+            case R.id.tv_camera:
                 mIFragmentListener.setOnViewClick(view.getId(), view.getRootView());
                 break;
         }
@@ -232,4 +257,5 @@ public class VideoFragment extends Fragment {
     protected <VT extends View> VT getViewById(@IdRes int id) {
         return (VT) mContentView.findViewById(id);
     }
+
 }

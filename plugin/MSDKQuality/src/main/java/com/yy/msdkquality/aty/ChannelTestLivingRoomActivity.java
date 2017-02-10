@@ -20,6 +20,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.beardedhen.androidbootstrap.AwesomeTextView;
+import com.beardedhen.androidbootstrap.api.defaults.DefaultBootstrapBrand;
 import com.ycloud.live.YCConstant;
 import com.ycloud.live.YCMedia;
 import com.ycloud.live.YCMediaRequest;
@@ -49,6 +51,7 @@ import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 /**
@@ -63,11 +66,11 @@ public class ChannelTestLivingRoomActivity extends FragmentActivity implements I
     private ViewPager viewPager;
     private List<Fragment> fragmentList;
     private ChannelVideoLayoutController mChannelVideoController = null;
-    private boolean mAudioLinkConnected = false;
+//    private boolean mAudioLinkConnected = false;
     private boolean mVideoLinkConnected = false;
-    private YCVideoPreview mVideoPreview = null;
-    private int mUid = 0;
-    private int mSid = 0;
+//    private YCVideoPreview mVideoPreview = null;
+    public int mUid = 0;
+    public int mSid = 0;
     private int mWanIp = 0;
     private int mWanIsp = 0;
     private int mAreaType = 0;
@@ -93,6 +96,7 @@ public class ChannelTestLivingRoomActivity extends FragmentActivity implements I
         public static final int MSG_CAMERA_PREVIEW_STOP = 2;
         public static final int MSG_GET_TOKEN_FAILED = 3;
         public static final int MSG_SEND_SINGAL_FAILED = 4;
+        public static final int MSG_CAMERA_PREVIEW_SUCCESS = 5;
     }
 
     VideoFragment mVideoFragment;
@@ -117,8 +121,11 @@ public class ChannelTestLivingRoomActivity extends FragmentActivity implements I
     private void initData() {
 
         Intent intent = this.getIntent();
-        mUid = intent.getIntExtra("uid", 456838);
-        mSid = intent.getIntExtra("sid", 3706);
+        Random random = new Random();
+        int x = random.nextInt(899999);
+        int number = x + 100000;
+        mUid = intent.getIntExtra("uid", number);
+        mSid = intent.getIntExtra("sid", 5587);
         //注册信令事件处理
         IProtoMgr.instance().addHandlerWatcher(mSignalHandler);
         //摄像头事件回调
@@ -133,6 +140,7 @@ public class ChannelTestLivingRoomActivity extends FragmentActivity implements I
             @Override
             public void onPreviewStartSuccess() {
                 printToLog(ColorTextView.SDK, "预览视图打开成功！");
+                mMediaHandler.sendMessage(mMediaHandler.obtainMessage(Operation.MSG_CAMERA_PREVIEW_SUCCESS));
             }
 
             @Override
@@ -143,7 +151,7 @@ public class ChannelTestLivingRoomActivity extends FragmentActivity implements I
             @Override
             public void onPreviewStopped() {
                 printToLog(ColorTextView.SDK, "预览视图停止！");
-                mVideoPreview = null;
+//                mVideoPreview = null;
                 Message msg = mMediaHandler.obtainMessage();
                 msg.what = Operation.MSG_CAMERA_PREVIEW_STOP;
                 mMediaHandler.sendMessage(msg);
@@ -168,6 +176,7 @@ public class ChannelTestLivingRoomActivity extends FragmentActivity implements I
         YCMedia.getInstance().addMsgHandler(mMediaHandler);
         //媒体参数配置
         loadMediaConfig();
+//        LogUtils.e("hwsupport:"+HwCodecConfig.getH264DecoderSupport().name());
     }
 
     /**
@@ -184,6 +193,10 @@ public class ChannelTestLivingRoomActivity extends FragmentActivity implements I
         configs.put(YCConstant.ConfigKey.UPLOAD_CUR_CODERATE, 700);
         configs.put(YCConstant.ConfigKey.UPLOAD_TOTAL_CODERATE, 1200);
         configs.put(YCConstant.ConfigKey.UPLOAD_USE_CRCONTROL, 1);
+        configs.put(YCConstant.ConfigKey.VIDEO_HARDWARE_DECODE,0);
+        configs.put(YCConstant.ConfigKey.VIDEO_HARDWARE_ENCODE,0);
+        configs.put(YCConstant.ConfigKey.VIDEO_RESOLUTION_HEIGHT, 1280);
+        configs.put(YCConstant.ConfigKey.VIDEO_RESOLUTION_WIDTH, 720);
 
         // video setting
         configs.put(YCConstant.ConfigKey.VIDEO_RECORD_QUALITY,
@@ -207,8 +220,26 @@ public class ChannelTestLivingRoomActivity extends FragmentActivity implements I
         super.onResume();
         if (mChannelVideoController == null) {
             mChannelVideoController = new ChannelVideoLayoutController(mViewLay, mViewLay2, mDoubleLayout);
-            //信令登录
-            signalLogin(mUid, mSid);
+        } else {
+            mChannelVideoController.resumeSubscribeVideo();
+        }
+        //信令登录
+        signalLogin(mUid, mSid);
+        if (mSwitchEnable == true && mIsCameraStarted) {
+            YCMedia.getInstance().requestMethod(new YCMediaRequest.YCStartCamera(mCameraType));
+        }
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        printToLog(ColorTextView.OTHER, "调用了onPause");
+        if (mSwitchEnable == true) {
+            YCMedia.getInstance().onPauseCamera();
+        }
+        if (mChannelVideoController != null) {
+            mChannelVideoController.onPauseSubscribeVideo();
         }
     }
 
@@ -220,6 +251,7 @@ public class ChannelTestLivingRoomActivity extends FragmentActivity implements I
                 tokenHex = String.format("%s%02x ", tokenHex, httpToken[i]);
             }
             SDKEngine.loginToProtoServerByUid(uid, tokenHex);
+            SDKEngine.joinQueue(mSid,tokenHex);
         } else {
             Toast.makeText(getApplicationContext(), "登录Token为空", Toast.LENGTH_SHORT).show();
             printToLog(ColorTextView.OTHER, "登录Token为空");
@@ -322,8 +354,84 @@ public class ChannelTestLivingRoomActivity extends FragmentActivity implements I
                 }
 
                 break;
+            case R.id.tv_openMic:
+                if (mIsOpenMic) {
+                    YCMedia.getInstance().requestMethod(new YCMediaRequest.YCCloseMic());
+                    AwesomeTextView tvOpenMic = (AwesomeTextView) v.findViewById(R.id.tv_openMic);
+                    tvOpenMic.setBootstrapBrand(DefaultBootstrapBrand.PRIMARY);
+                    mIsOpenMic = false;
+                    printToLog(ColorTextView.SDK, "调用关闭麦克风接口");
+                } else {
+                    YCMedia.getInstance().requestMethod(new YCMediaRequest.YCOpenMic());
+                    AwesomeTextView tvOpenMic = (AwesomeTextView) v.findViewById(R.id.tv_openMic);
+                    tvOpenMic.setBootstrapBrand(DefaultBootstrapBrand.DANGER);
+                    mIsOpenMic = true;
+                    printToLog(ColorTextView.SDK, "调用打开麦克风接口");
+
+                }
+                break;
+            case R.id.tv_muteaudio:
+                if (mIsAudioMute) {
+                    YCMedia.getInstance().requestMethod(new YCMediaRequest.YCMuteAudio(false));
+                    AwesomeTextView tvMuteAudio = (AwesomeTextView) v.findViewById(R.id.tv_muteaudio);
+                    tvMuteAudio.setBootstrapBrand(DefaultBootstrapBrand.PRIMARY);
+                    printToLog(ColorTextView.SDK, "静音已关闭");
+                    mIsAudioMute = false;
+                } else {
+                    YCMedia.getInstance().requestMethod(new YCMediaRequest.YCMuteAudio(true));
+                    AwesomeTextView tvMuteAudio = (AwesomeTextView) v.findViewById(R.id.tv_muteaudio);
+                    tvMuteAudio.setBootstrapBrand(DefaultBootstrapBrand.DANGER);
+                    printToLog(ColorTextView.SDK, "静音已打开");
+                    mIsAudioMute = true;
+                }
+                break;
+            case R.id.tv_lvzhi:
+                if (!mVideoLinkConnected) {
+                    Toast.makeText(getApplicationContext(), R.string.err_no_server,
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (mIsCameraStarted) {
+                    printToLog(ColorTextView.SDK, "停止录制");
+                    YCMedia.getInstance().requestMethod(new YCMediaRequest.YCStopCamera());
+                    YCMedia.getInstance().requestMethod(new YCMediaRequest.YCStopPublishVideo());
+                    AwesomeTextView tv_lvzhi = (AwesomeTextView) v.findViewById(R.id.tv_lvzhi);
+                    tv_lvzhi.setBootstrapBrand(DefaultBootstrapBrand.PRIMARY);
+                    mCameraPreview.setVisibility(View.INVISIBLE);
+                    mIsCameraStarted = false;
+                    mIsVideoPublished = false;
+                } else {
+                    printToLog(ColorTextView.SDK, "开始录制");
+                    mCameraPreview.setVisibility(View.VISIBLE);
+                    mCameraType = Camera.CameraInfo.CAMERA_FACING_BACK;
+//                    YCMedia.getInstance().requestMethod(new YCMediaRequest.YCStartPublishVideo());
+                    YCMedia.getInstance().requestMethod(new YCMediaRequest.YCStartCamera(mCameraType));
+                    AwesomeTextView tv_lvzhi = (AwesomeTextView) v.findViewById(R.id.tv_lvzhi);
+                    tv_lvzhi.setBootstrapBrand(DefaultBootstrapBrand.DANGER);
+                    mIsCameraStarted = true;
+                }
+                break;
+            case R.id.tv_camera:
+                if (Camera.getNumberOfCameras() == 1)
+                    return;
+
+                if (mSwitchEnable == false)
+                    return;
+                if (!mVideoLinkConnected) {
+                    Toast.makeText(getApplicationContext(), R.string.err_no_server,
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                mSwitchEnable = false;
+                mCameraType = mCameraType == Camera.CameraInfo.CAMERA_FACING_FRONT ? Camera.CameraInfo.CAMERA_FACING_BACK : Camera.CameraInfo.CAMERA_FACING_FRONT;
+                YCMedia.getInstance().requestMethod(new YCMediaRequest.YCSwitchCamera(mCameraType));
+                break;
         }
     }
+    private boolean mIsOpenMic = false;
+    private boolean mIsAudioMute = false;
+    private boolean mSwitchEnable;
 
     private void handleCameraPreviewReady(YCVideoPreview v) {
 
@@ -377,15 +485,15 @@ public class ChannelTestLivingRoomActivity extends FragmentActivity implements I
             SDKEngine.logoutSignal();
             Toast.makeText(getApplicationContext(), String.format("Signal Login failed %d", res.res),
                     Toast.LENGTH_SHORT).show();
-            printToLog(ColorTextView.SDK, "信令登录失败：" + res.toString());
+            printToLog(ColorTextView.SIGNAL, "信令登录失败：" + res.toString());
             return;
         }
 
         mWanIp = res.uClientIp;
         mWanIsp = res.uClientIsp;
         mAreaType = res.uClientAreaType;
-
-        LogUtils.e("applogin successed, uid:" + res.uid + ",wanIp:" + res.uClientIp + ",mWanIsp:" + res.uClientIsp + ",mAreaType:" + res.uClientAreaType);
+        printToLog(ColorTextView.SIGNAL,"信令登录成功, uid:"+ res.uid + ",wanIp:" + res.uClientIp + ",mWanIsp:" + res.uClientIsp + ",mAreaType:" + res.uClientAreaType);
+//        LogUtils.e("applogin successed, uid:" + res.uid + ",wanIp:" + res.uClientIp + ",mWanIsp:" + res.uClientIsp + ",mAreaType:" + res.uClientAreaType);
         SDKEngine.loginMedia(YConfig.mAppKey, mSid, mUid, mWanIp, mWanIsp, mAreaType, httpToken);
     }
 
@@ -422,14 +530,19 @@ public class ChannelTestLivingRoomActivity extends FragmentActivity implements I
                     handlePreviewStoped();
                     break;
 
-                case Operation.MSG_GET_TOKEN_FAILED: {
+                case Operation.MSG_GET_TOKEN_FAILED:
                     Toast.makeText(getApplicationContext(), "http get token failed", Toast.LENGTH_SHORT).show();
-                }
-                break;
+                    break;
+                case Operation.MSG_CAMERA_PREVIEW_SUCCESS:
 
-                case Operation.MSG_SEND_SINGAL_FAILED: {
+                    mSwitchEnable = true;
+                    break;
+
+
+                case Operation.MSG_SEND_SINGAL_FAILED:
                     Toast.makeText(getApplicationContext(), "send login ap failed:", Toast.LENGTH_SHORT).show();
-                }
+
+                    break;
                 case YCMessage.MsgType.onVideoLinkInfoNotity:
                     YCMessage.VideoLinkInfo videoLinkInfo = (YCMessage.VideoLinkInfo) msg.obj;
                     String baseInfo = String.format("appid:%d,ip:%s,port:%d", videoLinkInfo.appId, videoLinkInfo.ip, videoLinkInfo.port);
@@ -453,6 +566,7 @@ public class ChannelTestLivingRoomActivity extends FragmentActivity implements I
                     int state = streamInfo.state;
                     long streamId = streamInfo.streamId;
                     if (state == YCMessage.VideoStreamInfo.Arrive) {
+
                         printToLog(ColorTextView.VIDEO, "视频流到来:" + String.format("userGroupId:%d,publishId:%d,audoSubscribe:%d,streamId:%d", userGroupId, publishId, audoSubscribe, streamId));
                     } else if (state == YCMessage.VideoStreamInfo.Start) {
                         printToLog(ColorTextView.VIDEO, "视频流开始:" + String.format("userGroupId:%d,publishId:%d,audoSubscribe:%d,streamId:%d", userGroupId, publishId, audoSubscribe, streamId));
@@ -552,7 +666,6 @@ public class ChannelTestLivingRoomActivity extends FragmentActivity implements I
                             printToLog(ColorTextView.VIDEO, "streamMap:" + streamMap.get(j).dataMap.get(k).intValue());
                         }
                     }
-
                     break;
                 case YCMessage.MsgType.onVideoPublisherStatInfo:
                     YCMessage.VideoPublisherStatInfo videoPublisherStatInfo = (YCMessage.VideoPublisherStatInfo) msg.obj;
@@ -580,6 +693,7 @@ public class ChannelTestLivingRoomActivity extends FragmentActivity implements I
                     YCMessage.AudioSpeakerInfo speakerInfo = (YCMessage.AudioSpeakerInfo) msg.obj;
 //                    LogUtils.d("onAudioSpeakerInfoNotity, state: " + speakerInfo.state);
                     String stateStr2 = speakerInfo.state == YCMessage.AudioSpeakerInfo.Start ? "开始" : "接收";
+                    handleAudioSpeaker(speakerInfo.state);
                     printToLog(ColorTextView.AUDIO, "说话者信息，uid:" + speakerInfo.uid + ",状态:" + stateStr2);
                     break;
                 case YCMessage.MsgType.onMicStateInfoNotify:
@@ -658,6 +772,11 @@ public class ChannelTestLivingRoomActivity extends FragmentActivity implements I
         }
     };
 
+    private void handleAudioSpeaker(int state) {
+        if (state == YCMessage.AudioSpeakerInfo.Start && !mIsAudioMute) {
+            YCMedia.getInstance().requestMethod(new YCMediaRequest.YCMuteAudio(false));
+        }
+    }
 
     @Override
     protected void onDestroy() {

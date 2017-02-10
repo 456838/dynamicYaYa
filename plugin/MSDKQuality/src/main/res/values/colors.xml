@@ -17,4 +17,7 @@
     <color name="txt_64">#646464</color>
     <!--文字black-->
     <color name="colorTextBlack">#000000</color>
+
+    <color name="red">#db3434</color>
+    <color name="yellow">#ffff00</color>
 </resources>

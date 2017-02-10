@@ -38,14 +38,15 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".InitialActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".aty.SceneActivity" />
-        <activity android:name=".aty.ChannelTestLivingRoomActivity"/>
+        <activity android:name=".MainActivity" />
+        <activity android:name=".aty.ChannelTestLivingRoomActivity" android:screenOrientation="portrait"/>
         <activity android:name=".aty.LiveActivity"/>
     </application>
 

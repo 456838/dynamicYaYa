@@ -5,11 +5,15 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build;
 import android.text.Html;
+import android.text.SpannableStringBuilder;
 import android.util.AttributeSet;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.yy.saltonframework.R;
+
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * Created by munix on 20/12/16.
@@ -17,8 +21,9 @@ import com.yy.saltonframework.R;
 
 public class ColorTextView extends ScrollView implements ColorTextViewListener {
 
-    private int audioColor, videoColor, sdkColor, otherColor, warningColor, consoleColor;
+    private int audioColor, videoColor, sdkColor, otherColor, signalColor, consoleColor;
     private TextView textView;
+    private Queue<String> mLogQueue = new ConcurrentLinkedQueue<>();
 
     public ColorTextView(Context context) {
         super(context);
@@ -63,7 +68,7 @@ public class ColorTextView extends ScrollView implements ColorTextViewListener {
                         .getColor(R.color.defaultErrorColor));
                 otherColor = a.getColor(R.styleable.ColorTextView_infoColor, getContext().getResources()
                         .getColor(R.color.defaultInfoColor));
-                warningColor = a.getColor(R.styleable.ColorTextView_warningColor, getContext().getResources()
+                signalColor = a.getColor(R.styleable.ColorTextView_warningColor, getContext().getResources()
                         .getColor(R.color.defaultWarningColor));
 
                 consoleColor = a.getColor(R.styleable.ColorTextView_consoleColor, getContext().getResources()
@@ -76,7 +81,7 @@ public class ColorTextView extends ScrollView implements ColorTextViewListener {
             videoColor = getContext().getResources().getColor(R.color.defaultDebugColor);
             sdkColor = getContext().getResources().getColor(R.color.defaultErrorColor);
             otherColor = getContext().getResources().getColor(R.color.defaultInfoColor);
-            warningColor = getContext().getResources().getColor(R.color.defaultWarningColor);
+            signalColor = getContext().getResources().getColor(R.color.defaultWarningColor);
             consoleColor = getContext().getResources().getColor(R.color.defaultConsoleColor);
         }
 
@@ -88,6 +93,7 @@ public class ColorTextView extends ScrollView implements ColorTextViewListener {
     public static final int VIDEO = 2;
     public static final int SDK = 3;
     public static final int OTHER = 4;
+    public static final int SIGNAL = 5;
 
     public void refreshLogcat(int TAG, String content) {
         StringBuilder log = new StringBuilder();
@@ -105,11 +111,24 @@ public class ColorTextView extends ScrollView implements ColorTextViewListener {
             case OTHER:
                 lineColor = otherColor;
                 break;
+            case SIGNAL:
+                lineColor = signalColor;
+                break;
         }
         log.append("<font color=\"#" + Integer.toHexString(lineColor)
                 .toUpperCase()
                 .substring(2) + "\">" + content + "</font><br><br>");
-        textView.append(Html.fromHtml(log.toString()));
+        if (mLogQueue.size() < 300) {
+            mLogQueue.add(log.toString());
+        } else {
+            mLogQueue.poll();
+        }
+        SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
+        for (String msg : mLogQueue) {
+            spannableStringBuilder.append(msg);
+        }
+//            System.out.println(sb.toString());
+        textView.setText(Html.fromHtml(spannableStringBuilder.toString()));
     }
 
     @Override
@@ -147,7 +166,7 @@ public class ColorTextView extends ScrollView implements ColorTextViewListener {
 //                            } else if (line.contains(" D ")) {
 //                                lineColor = videoColor;
 //                            } else if (line.contains(" W ")) {
-//                                lineColor = warningColor;
+//                                lineColor = signalColor;
 //                            }
 //
 //                            log.append("<font color=\"#" + Integer.toHexString(lineColor)
@@ -193,7 +212,7 @@ public class ColorTextView extends ScrollView implements ColorTextViewListener {
 //                            } else if (line.contains(" D ")) {
 //                                lineColor = videoColor;
 //                            } else if (line.contains(" W ")) {
-//                                lineColor = warningColor;
+//                                lineColor = signalColor;
 //                            }
 //
 //                            log.append("<font color=\"#" + Integer.toHexString(lineColor)

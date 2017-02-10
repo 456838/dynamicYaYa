@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/transparent"
@@ -24,8 +25,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_alignParentBottom="true"
-
-                android:gravity="center_vertical"
+                android:gravity="center"
                 android:orientation="horizontal">
 
                 <TextView
@@ -35,17 +35,53 @@
                     android:layout_marginLeft="16dp"
                     android:clickable="true"
                     android:text="配置"
-                    android:textColor="#ffffff" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:text="00:00"
                     android:textColor="#ffffff"
                     android:visibility="gone" />
 
+                <com.beardedhen.androidbootstrap.AwesomeTextView
+                    android:id="@+id/tv_openMic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:clickable="true"
+                    app:bootstrapBrand="primary"
+                    android:text="麦克风"
+                    android:textColor="#ffffff" />
+
+                <com.beardedhen.androidbootstrap.AwesomeTextView
+                    android:id="@+id/tv_muteaudio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:clickable="true"
+                    app:bootstrapBrand="primary"
+                    android:text="静音"
+                    android:textColor="#ffffff" />
+
+
+                <com.beardedhen.androidbootstrap.AwesomeTextView
+                    android:id="@+id/tv_lvzhi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:clickable="true"
+                    app:bootstrapBrand="primary"
+                    android:text="视频录制"
+                    android:textColor="#ffffff" />
+
+                <com.beardedhen.androidbootstrap.AwesomeTextView
+                    android:id="@+id/tv_camera"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:clickable="true"
+                    android:text="前置相机"
+                    app:bootstrapBrand="primary"
+                    android:textColor="#ffffff" />
+
+
                 <SeekBar
+                    android:visibility="gone"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -60,6 +96,7 @@
                     android:thumb="@drawable/jc_seek_thumb" />
 
                 <ImageView
+                    android:visibility="gone"
                     android:id="@+id/iv_audio_mute"
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
@@ -68,6 +105,7 @@
                     android:src="@drawable/btn_audio_mute" />
 
                 <ImageView
+                    android:visibility="gone"
                     android:id="@+id/iv_fullscreen"
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
@@ -75,6 +113,7 @@
                     android:paddingRight="10dp"
                     android:scaleType="center"
                     android:src="@drawable/full_screen_button_selector" />
+
             </LinearLayout>
 
             <ProgressBar

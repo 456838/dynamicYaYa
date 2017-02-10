@@ -172,6 +172,7 @@ public class LiveActivity extends Activity implements YCCameraStatusListener {
 
                 case YCMessage.MsgType.onMicStateInfoNotify:
                     YCMessage.MicStateInfo micStateInfo = (YCMessage.MicStateInfo) msg.obj;
+
                     Log.d(TAG, "onMicStateInfoNotify, state: " + micStateInfo.state);
                     break;
 
@@ -220,12 +221,13 @@ public class LiveActivity extends Activity implements YCCameraStatusListener {
         configs.put(YCConstant.ConfigKey.VIDEO_AUTO_SUBSCRIBE_STREAM, 1);    //auto subscribe stream
         //audio setting
         configs.put(YCConstant.ConfigKey.AUDIO_RECORD_QUALITY, YCConstant.MEDIA_QUALITY_HIGH);
+        configs.put(YCConstant.ConfigKey.VIDEO_HARDWARE_DECODE,0);
+        configs.put(YCConstant.ConfigKey.VIDEO_HARDWARE_ENCODE,0);
 
         //upload bitrate control
         configs.put(YCConstant.ConfigKey.UPLOAD_MIN_CODERATE, 350);
         configs.put(YCConstant.ConfigKey.UPLOAD_MAX_CODERATE, 800);
         configs.put(YCConstant.ConfigKey.UPLOAD_CUR_CODERATE, 700);
-        configs.put(YCConstant.ConfigKey.VIDEO_HARDWARE_DECODE, 1);
         configs.put(YCConstant.ConfigKey.UPLOAD_TOTAL_CODERATE, 1200);
         configs.put(YCConstant.ConfigKey.UPLOAD_USE_CRCONTROL, 1);
 
@@ -246,6 +248,8 @@ public class LiveActivity extends Activity implements YCCameraStatusListener {
         configs.put(YCConstant.ConfigKey.UPLOAD_CUR_CODERATE, 700);
         configs.put(YCConstant.ConfigKey.UPLOAD_TOTAL_CODERATE, 1200);
         configs.put(YCConstant.ConfigKey.UPLOAD_USE_CRCONTROL, 1);
+        configs.put(YCConstant.ConfigKey.VIDEO_HARDWARE_DECODE,0);
+        configs.put(YCConstant.ConfigKey.VIDEO_HARDWARE_ENCODE,0);
 
         // video setting
         configs.put(YCConstant.ConfigKey.VIDEO_RECORD_QUALITY,
@@ -290,7 +294,7 @@ public class LiveActivity extends Activity implements YCCameraStatusListener {
         //获取UI设置
         Intent intent = this.getIntent();
         mUid = intent.getIntExtra("uid", 563185579);
-        mSid = intent.getIntExtra("sid", 3706);
+        mSid = intent.getIntExtra("sid", 5587);
         boolean isLowLatencyModel = intent.getBooleanExtra("loginModel", false);
 
         //注册信令事件处理
