@@ -249,4 +249,113 @@ public class SDKEngine {
         }
         return resonStr;
     }
+
+    public static String getProtoEvtSessOperReason(int res){
+        String resonStr = "";
+        switch (res){
+            case 0:
+                resonStr="成功";
+                break;
+            case 1:
+                resonStr="操作过快";
+                break;
+            case 2:
+                resonStr="操作用户不存在";
+                break;
+            case 3:
+            resonStr="被操作用户不存在";
+            break;
+            case 4:
+                resonStr="频道不存在";
+                break;
+            case 5:
+                resonStr="子频道不存在";
+                break;
+            case 6:
+                resonStr="其他参数错误";
+                break;
+            case 7:
+                resonStr="无权限执行操作";
+                break;
+            case 8:
+                resonStr="后端写数据操作失败";
+                break;
+            case 9:
+                resonStr="uid不是真实的";
+                break;
+            case 10:
+                resonStr="appKey不是真的";
+                break;
+            case 11:
+                resonStr="频道设置了密码，要求输入密码";
+                break;
+            case 12:
+                resonStr="提示客户端进频道多端互踢";
+                break;
+            case 13:
+                resonStr="多端互踢超时";
+                break;
+            case 14:
+                resonStr="频道人数达到上限";
+                break;
+            case 15:
+                resonStr="进频道拥塞";
+                break;
+            case 21:
+                resonStr="操作未购买";
+                break;
+            case 22:
+                resonStr="Token超时";
+                break;
+            case 23:
+                resonStr="Token摘要对比失败";
+                break;
+            case 24:
+                resonStr="Token长度不对";
+                break;
+            case 25:
+                resonStr="Token格式不对";
+                break;
+            case 26:
+                resonStr="未支持的AppKey";
+                break;
+            case 27:
+                resonStr="Token未知错误";
+                break;
+            case 33:
+                resonStr="检验flag位错误，例如不是0也不是1";
+                break;
+            case 35:
+                resonStr="用户被踢出频道一段时间，在这段时间内用户又再次进频道";
+                break;
+            case 37:
+                resonStr="进程没有记录该用户被踢出去";
+                break;
+            case 38:
+                resonStr="写入在线数据库失败";
+                break;
+            case 40:
+                resonStr="密码错误";
+                break;
+            case 101:
+                resonStr="访问频率限制";
+                break;
+            case 102:
+                resonStr="频道不存在";
+                break;
+            case 103:
+                resonStr="参数错误";
+                break;
+            case 104:
+                resonStr="数据库操作错误";
+                break;
+            case 105:
+                resonStr="数量限制";
+                break;
+            case 106:
+                resonStr="频道已存在";
+                break;
+        }
+        return resonStr;
+    }
 }

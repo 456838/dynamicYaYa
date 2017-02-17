@@ -74,6 +74,8 @@ public class VideoFragment extends Fragment {
     @BindView(R.id.layout_top)
     LinearLayout layoutTop;
 
+
+
     IFragmentListener mIFragmentListener;
     @BindView(R.id.tv_openMic)
     AwesomeTextView tvOpenMic;
@@ -83,6 +85,8 @@ public class VideoFragment extends Fragment {
     AwesomeTextView tvLvzhi;
     @BindView(R.id.tv_camera)
     AwesomeTextView tvCamera;
+    @BindView(R.id.tv_word_test)
+    AwesomeTextView tvWordTest;
 
     @Override
     public void onAttach(Activity activity) {
@@ -118,14 +122,15 @@ public class VideoFragment extends Fragment {
         return view;
     }
 
-    ChannelTestLivingRoomActivity mActivity ;
-    private void initData(){
+    ChannelTestLivingRoomActivity mActivity;
+
+    private void initData() {
         mActivity = (ChannelTestLivingRoomActivity) getActivity();
         anchor.setText(mActivity.mUid);
-        textDecode.setText(HwCodecConfig.isHw264DecodeEnabled()==true?"解    码：硬解":"解    码：软解");
+        textDecode.setText(HwCodecConfig.isHw264DecodeEnabled() == true ? "解    码：硬解" : "解    码：软解");
     }
 
-    @OnClick({R.id.tv_property, R.id.iv_audio_mute, R.id.iv_fullscreen, R.id.layout_bottom, R.id.start, R.id.ll_video, R.id.propertyFragment, R.id.ll_property,R.id.tv_openMic, R.id.tv_muteaudio, R.id.tv_lvzhi, R.id.tv_camera})
+    @OnClick({R.id.tv_property, R.id.iv_audio_mute, R.id.iv_fullscreen, R.id.layout_bottom, R.id.start, R.id.ll_video, R.id.propertyFragment, R.id.ll_property, R.id.tv_openMic, R.id.tv_muteaudio, R.id.tv_lvzhi, R.id.tv_camera})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_property:
@@ -140,6 +145,10 @@ public class VideoFragment extends Fragment {
             case R.id.layout_bottom:
                 break;
             case R.id.start:
+                LogUtils.e("start btn clicked!");
+                mIFragmentListener.setOnViewClick(view.getId(), view);
+                break;
+            case R.id.tv_word_test:
                 LogUtils.e("start btn clicked!");
                 mIFragmentListener.setOnViewClick(view.getId(), view);
                 break;

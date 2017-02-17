@@ -66,9 +66,9 @@ public class ChannelTestLivingRoomActivity extends FragmentActivity implements I
     private ViewPager viewPager;
     private List<Fragment> fragmentList;
     private ChannelVideoLayoutController mChannelVideoController = null;
-//    private boolean mAudioLinkConnected = false;
+    //    private boolean mAudioLinkConnected = false;
     private boolean mVideoLinkConnected = false;
-//    private YCVideoPreview mVideoPreview = null;
+    //    private YCVideoPreview mVideoPreview = null;
     public int mUid = 0;
     public int mSid = 0;
     private int mWanIp = 0;
@@ -119,13 +119,13 @@ public class ChannelTestLivingRoomActivity extends FragmentActivity implements I
     }
 
     private void initData() {
-
         Intent intent = this.getIntent();
         Random random = new Random();
         int x = random.nextInt(899999);
         int number = x + 100000;
         mUid = intent.getIntExtra("uid", number);
         mSid = intent.getIntExtra("sid", 5587);
+        LogUtils.e("uid:" + mUid + ",sid:" + mSid);
         //注册信令事件处理
         IProtoMgr.instance().addHandlerWatcher(mSignalHandler);
         //摄像头事件回调
@@ -193,8 +193,8 @@ public class ChannelTestLivingRoomActivity extends FragmentActivity implements I
         configs.put(YCConstant.ConfigKey.UPLOAD_CUR_CODERATE, 700);
         configs.put(YCConstant.ConfigKey.UPLOAD_TOTAL_CODERATE, 1200);
         configs.put(YCConstant.ConfigKey.UPLOAD_USE_CRCONTROL, 1);
-        configs.put(YCConstant.ConfigKey.VIDEO_HARDWARE_DECODE,0);
-        configs.put(YCConstant.ConfigKey.VIDEO_HARDWARE_ENCODE,0);
+        configs.put(YCConstant.ConfigKey.VIDEO_HARDWARE_DECODE, 0);
+        configs.put(YCConstant.ConfigKey.VIDEO_HARDWARE_ENCODE, 0);
         configs.put(YCConstant.ConfigKey.VIDEO_RESOLUTION_HEIGHT, 1280);
         configs.put(YCConstant.ConfigKey.VIDEO_RESOLUTION_WIDTH, 720);
 
@@ -251,7 +251,7 @@ public class ChannelTestLivingRoomActivity extends FragmentActivity implements I
                 tokenHex = String.format("%s%02x ", tokenHex, httpToken[i]);
             }
             SDKEngine.loginToProtoServerByUid(uid, tokenHex);
-            SDKEngine.joinQueue(mSid,tokenHex);
+            SDKEngine.joinQueue(mSid, tokenHex);
         } else {
             Toast.makeText(getApplicationContext(), "登录Token为空", Toast.LENGTH_SHORT).show();
             printToLog(ColorTextView.OTHER, "登录Token为空");
@@ -427,14 +427,17 @@ public class ChannelTestLivingRoomActivity extends FragmentActivity implements I
                 mCameraType = mCameraType == Camera.CameraInfo.CAMERA_FACING_FRONT ? Camera.CameraInfo.CAMERA_FACING_BACK : Camera.CameraInfo.CAMERA_FACING_FRONT;
                 YCMedia.getInstance().requestMethod(new YCMediaRequest.YCSwitchCamera(mCameraType));
                 break;
+            case R.id.tv_word_test:
+                SDKEngine.sendProtoTestMsg(mSid, "context:hello", "文字测试");
+                break;
         }
     }
+
     private boolean mIsOpenMic = false;
     private boolean mIsAudioMute = false;
     private boolean mSwitchEnable;
 
     private void handleCameraPreviewReady(YCVideoPreview v) {
-
         printToLog(ColorTextView.OTHER, "预览刷新");
 
         ((View) v).setVisibility(View.VISIBLE);
@@ -462,6 +465,7 @@ public class ChannelTestLivingRoomActivity extends FragmentActivity implements I
         public void onEvent(byte[] data) {
             ProtoEvent.ProtoEventBase base = new ProtoEvent.ProtoEventBase();
             base.unmarshal(data);
+            handleSignalMessage(base);
             switch (base.eventType) {
                 case ProtoEvent.EventType.PROTO_EVENT_LOGIN_RES: {
                     onLoginRes(data);
@@ -475,6 +479,106 @@ public class ChannelTestLivingRoomActivity extends FragmentActivity implements I
         }
 
     };
+
+    private void handleSignalMessage(ProtoEvent.ProtoEventBase p_ProtoEvent) {
+        switch (p_ProtoEvent.eventType) {
+            case ProtoEvent.EventType.PROTO_EVENT_SESS_JOIN_RES:    //502
+                ProtoEvent.ProtoEvtLoginRes protoEvtLoginRes = (ProtoEvent.ProtoEvtLoginRes) p_ProtoEvent;
+                printToLog(ColorTextView.SIGNAL, "信令接口：进频道：" + protoEvtLoginRes.toString());
+                if (protoEvtLoginRes.res == 200) {
+                    printToLog(ColorTextView.SIGNAL, "进频道成功");
+                }
+
+                break;
+            case ProtoEvent.EventType.PROTO_EVENT_CHANNEL_CLOSED://103
+                ProtoEvent.ProtoEvtChannelClosed protoEvtChannelClosedRes = (ProtoEvent.ProtoEvtChannelClosed) p_ProtoEvent;
+                printToLog(ColorTextView.SIGNAL, "信令接口：进频道：" + protoEvtChannelClosedRes.toString());
+                if (protoEvtChannelClosedRes.isClosed) {
+                    printToLog(ColorTextView.SIGNAL, "频道已经关闭");
+                }
+                break;
+            case ProtoEvent.EventType.PROTO_EVENT_SESS_OPER_RES://501
+                ProtoEvent.ProtoEvtSessOperRes protoEvtSessOperRes = (ProtoEvent.ProtoEvtSessOperRes) p_ProtoEvent;
+                printToLog(ColorTextView.SIGNAL, "频道操作结果:" + SDKEngine.getProtoEvtSessOperReason(protoEvtSessOperRes.resCode));
+                break;
+            case ProtoEvent.EventType.PROTO_EVENT_SESS_QUERY_USER_INFO_RES://509
+                ProtoEvent.ProtoEvtSessQueryUserInfoRes protoEvtSessQueryUserInfoRes = (ProtoEvent.ProtoEvtSessQueryUserInfoRes) p_ProtoEvent;
+                printToLog(ColorTextView.SIGNAL,"取频道内用户回复:"+protoEvtSessQueryUserInfoRes.toString());
+                break ;
+            case ProtoEvent.EventType.PROTO_EVENT_SESS_TEXT_CHAT_BROAD_RES://512
+                ProtoEvent.ProtoEvtSessTextChatBroadRes protoEvtSessTextChatBroadRes = (ProtoEvent.ProtoEvtSessTextChatBroadRes) p_ProtoEvent;
+                printToLog(ColorTextView.SIGNAL,"公屏信息:"+protoEvtSessTextChatBroadRes.toString());
+                break ;
+            case ProtoEvent.EventType.PROTO_EVENT_SESS_JOIN_QUEUE_RES://600
+                ProtoEvent.ProtoEvtSessJoinQueueRes protoEvtSessJoinQueueRes = (ProtoEvent.ProtoEvtSessJoinQueueRes) p_ProtoEvent;
+                printToLog(ColorTextView.SIGNAL,"举手发言回复:"+protoEvtSessJoinQueueRes.toString());
+                break ;
+            case ProtoEvent.EventType.PROTO_EVENT_SESS_LEAVE_QUEUE_RES://601
+                ProtoEvent.ProtoEvtSessLeaveQueueRes protoEvtSessLeaveQueueRes = (ProtoEvent.ProtoEvtSessLeaveQueueRes) p_ProtoEvent;
+                printToLog(ColorTextView.SIGNAL,"退出发言列表回复:"+protoEvtSessLeaveQueueRes.toString());
+                break ;
+            case ProtoEvent.EventType.PROTO_EVENT_SESS_QUERY_QUEUE_RES://602
+                ProtoEvent.ProtoEvtSessQueryQueueRes protoEvtSessQueryQueueRes = (ProtoEvent.ProtoEvtSessQueryQueueRes) p_ProtoEvent;
+                printToLog(ColorTextView.SIGNAL,"查询发言列表回复:"+protoEvtSessQueryQueueRes.toString());
+                break ;
+            case 1:
+                printToLog(ColorTextView.SIGNAL, "登录回复:"+p_ProtoEvent.toString());
+                break;
+            case 2:
+                printToLog(ColorTextView.SIGNAL, "信令登出："+p_ProtoEvent.toString());
+                break;
+            case 3:
+                printToLog(ColorTextView.SIGNAL, "踢出登录："+p_ProtoEvent.toString());
+                break;
+            case 503:
+                printToLog(ColorTextView.SIGNAL, "退出频道："+p_ProtoEvent.toString());
+                break;
+            case 504:
+                printToLog(ColorTextView.SIGNAL, "多端进频道被拒："+p_ProtoEvent.toString());
+                break;
+            case 505:
+                printToLog(ColorTextView.SIGNAL, "多端被踢："+p_ProtoEvent.toString());
+                break;
+            case 506:
+                printToLog(ColorTextView.SIGNAL, "更新频道信息："+p_ProtoEvent.toString());
+                break;
+            case 507:
+                printToLog(ColorTextView.SIGNAL, "更新频道内用户信息："+p_ProtoEvent.toString());
+                break;
+            case 508:
+                printToLog(ColorTextView.SIGNAL, "用户列表信息："+p_ProtoEvent.toString());
+                break;
+            case 510:
+                printToLog(ColorTextView.SIGNAL, "推送在线用户信息："+p_ProtoEvent.toString());
+                break;
+
+            case 511:
+                printToLog(ColorTextView.SIGNAL, "取频道信息回复："+p_ProtoEvent.toString());
+                break;
+            case 513:
+                printToLog(ColorTextView.SIGNAL, "聚合公屏信息："+p_ProtoEvent.toString());
+                break;
+            case 514:
+                printToLog(ColorTextView.SIGNAL, "按顺序取用户信息回复："+p_ProtoEvent.toString());
+                break;
+
+            case 515:
+                printToLog(ColorTextView.SIGNAL, "查询频道人数回复："+p_ProtoEvent.toString());
+                break;
+            case 527:
+                printToLog(ColorTextView.SIGNAL, "取历史公屏信息回复："+p_ProtoEvent.toString());
+                break;
+            case 2000:
+                printToLog(ColorTextView.SIGNAL, "一对一聊天回复："+p_ProtoEvent.toString());
+                break;
+            case 2001:
+                printToLog(ColorTextView.SIGNAL, "一对一聊天消息："+p_ProtoEvent.toString());
+                break;
+
+
+        }
+
+    }
 
     private void onLoginRes(byte[] data) {
         ProtoEvent.ProtoEvtLoginRes res = new ProtoEvent.ProtoEvtLoginRes();
@@ -492,7 +596,7 @@ public class ChannelTestLivingRoomActivity extends FragmentActivity implements I
         mWanIp = res.uClientIp;
         mWanIsp = res.uClientIsp;
         mAreaType = res.uClientAreaType;
-        printToLog(ColorTextView.SIGNAL,"信令登录成功, uid:"+ res.uid + ",wanIp:" + res.uClientIp + ",mWanIsp:" + res.uClientIsp + ",mAreaType:" + res.uClientAreaType);
+        printToLog(ColorTextView.SIGNAL, "信令登录成功, uid:" + res.uid + ",wanIp:" + res.uClientIp + ",mWanIsp:" + res.uClientIsp + ",mAreaType:" + res.uClientAreaType);
 //        LogUtils.e("applogin successed, uid:" + res.uid + ",wanIp:" + res.uClientIp + ",mWanIsp:" + res.uClientIsp + ",mAreaType:" + res.uClientAreaType);
         SDKEngine.loginMedia(YConfig.mAppKey, mSid, mUid, mWanIp, mWanIsp, mAreaType, httpToken);
     }

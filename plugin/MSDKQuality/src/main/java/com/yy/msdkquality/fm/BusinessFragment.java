@@ -94,7 +94,7 @@ public class BusinessFragment extends Fragment {
         try {
             JSONObject top = new JSONObject(jsonStr);
             int eventType = top.getInt("eventType");
-            updateLog(ColorTextView.SIGNAL,"eventType:"+eventType);
+            updateLog(ColorTextView.SIGNAL, "eventType:" + eventType);
             switch (eventType) {
                 case 512:       //公屏信息,带context
                     break;
@@ -105,6 +105,7 @@ public class BusinessFragment extends Fragment {
         }
 
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -141,15 +142,15 @@ public class BusinessFragment extends Fragment {
         } else if (HwCodecConfig.getH264EncoderSupport().name().equals("UNSUPPORTED")) {
             updateLog(ColorTextView.VIDEO, "无法确定系统是否支持硬编");
         }
-        updateLog(ColorTextView.OTHER,"cpuName:"+ CpuInfoUtils.getCpuName()+",info:"+CpuInfoUtils.readCpuInfo());
+        updateLog(ColorTextView.OTHER, "cpuName:" + CpuInfoUtils.getCpuName() + ",info:" + CpuInfoUtils.readCpuInfo());
 //        mChatMsgListAdapter = new ChatMsgListAdapter(getActivity(), lstMessage, mArrayListChatEntity);
 //        lstMessage.setAdapter(mChatMsgListAdapter);
     }
 
     public void updateLog(int TAG, String message) {
-//        if(tvLines!=null){
-        tvLines.refreshLogcat(TAG, message);
-//        }
+        if (tvLines != null) {
+            tvLines.refreshLogcat(TAG, message);
+        }
     }
 
 

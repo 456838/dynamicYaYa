@@ -42,46 +42,60 @@
                     android:id="@+id/tv_openMic"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
                     android:clickable="true"
-                    app:bootstrapBrand="primary"
                     android:text="麦克风"
-                    android:textColor="#ffffff" />
+                    android:textColor="#ffffff"
+                    android:padding="5dp"
+                    app:bootstrapBrand="primary" />
 
                 <com.beardedhen.androidbootstrap.AwesomeTextView
                     android:id="@+id/tv_muteaudio"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
+                    android:layout_marginLeft="10dp"
                     android:clickable="true"
-                    app:bootstrapBrand="primary"
                     android:text="静音"
-                    android:textColor="#ffffff" />
+                    android:padding="5dp"
+                    android:textColor="#ffffff"
+                    app:bootstrapBrand="primary" />
 
 
                 <com.beardedhen.androidbootstrap.AwesomeTextView
                     android:id="@+id/tv_lvzhi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
+                    android:layout_marginLeft="10dp"
                     android:clickable="true"
-                    app:bootstrapBrand="primary"
                     android:text="视频录制"
-                    android:textColor="#ffffff" />
+                    android:padding="5dp"
+                    android:textColor="#ffffff"
+                    app:bootstrapBrand="primary" />
 
                 <com.beardedhen.androidbootstrap.AwesomeTextView
                     android:id="@+id/tv_camera"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
+                    android:layout_marginLeft="10dp"
                     android:clickable="true"
                     android:text="前置相机"
+                    android:padding="5dp"
+                    android:textColor="#ffffff"
+                    app:bootstrapBrand="primary" />
+
+                <com.beardedhen.androidbootstrap.AwesomeTextView
+                    android:id="@+id/tv_word_test"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:clickable="true"
+                    android:text="文字信息"
+                    android:textColor="#ffffff"
+                    android:padding="5dp"
                     app:bootstrapBrand="primary"
-                    android:textColor="#ffffff" />
+                    />
 
 
                 <SeekBar
-                    android:visibility="gone"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -93,26 +107,27 @@
                     android:paddingBottom="8dp"
                     android:paddingTop="8dp"
                     android:progressDrawable="@drawable/jc_seek_progress"
-                    android:thumb="@drawable/jc_seek_thumb" />
+                    android:thumb="@drawable/jc_seek_thumb"
+                    android:visibility="gone" />
 
                 <ImageView
-                    android:visibility="gone"
                     android:id="@+id/iv_audio_mute"
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
-                    android:src="@drawable/btn_audio_mute" />
+                    android:src="@drawable/btn_audio_mute"
+                    android:visibility="gone" />
 
                 <ImageView
-                    android:visibility="gone"
                     android:id="@+id/iv_fullscreen"
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
                     android:scaleType="center"
-                    android:src="@drawable/full_screen_button_selector" />
+                    android:src="@drawable/full_screen_button_selector"
+                    android:visibility="gone" />
 
             </LinearLayout>
 

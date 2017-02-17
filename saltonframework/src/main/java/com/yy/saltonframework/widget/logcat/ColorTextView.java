@@ -118,7 +118,7 @@ public class ColorTextView extends ScrollView implements ColorTextViewListener {
         log.append("<font color=\"#" + Integer.toHexString(lineColor)
                 .toUpperCase()
                 .substring(2) + "\">" + content + "</font><br><br>");
-        if (mLogQueue.size() < 300) {
+        if (mLogQueue.size() < 20) {
             mLogQueue.add(log.toString());
         } else {
             mLogQueue.poll();
